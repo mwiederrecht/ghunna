@@ -1,0 +1,76 @@
+<!-- title: The waqf model | nav: waqf -->
+<section style="padding-bottom: 8px">
+  <p class="label">The waqf model</p>
+  <h1>Stopping is a parameter.</h1>
+  <p class="lede">Several rules exist only at a pause; several die across one. A fixed
+  table of annotations must therefore assume one pause behavior and bake it in. This
+  engine takes the recitation context as input instead.</p>
+</section>
+
+<section id="why">
+  <h2>Why it matters</h2>
+  <p>Consider a verse ending. If the reciter continues, the final word's last vowel is
+  pronounced and the text flows into the next verse: an idghām may form across the seam,
+  and a word-final madd letter before a hamzah in the next verse becomes munfaṣil. If
+  the reciter stops, the last letter loses its vowel, and a different set of rules
+  appears at exactly that position: madd ʿāriḍ lil-sukūn on a preceding madd letter,
+  madd līn on a preceding līn letter, qalqalah kubrā on a final qalqalah letter, the
+  substitution madd (ʿiwaḍ) for tanwīn fatḥ, and the transmitted stop options rawm and
+  ishmām on the lost vowel. One text, two correct and different annotations. Any tool
+  that returns a single answer without asking has chosen for you, silently.</p>
+</section>
+
+<section id="modes">
+  <h2>The modes</h2>
+  <div class="scroller"><table class="canon">
+    <tr><th>option</th><th>meaning</th></tr>
+    <tr><td class="mono">mode: "continue"</td><td>default; the text flows into what follows, no stop at its end</td></tr>
+    <tr><td class="mono">mode: "stop"</td><td>waqf at the end of the text: the stop rules fire at the final word</td></tr>
+    <tr><td class="mono">mode: "both"</td><td>the union of both runs; annotations exclusive to one mode carry <code>appliesIn: "wasl" | "waqf"</code></td></tr>
+    <tr><td class="mono">stopAt: n</td><td>stop after word n and resume at word n+1: stop rules at word n, resumption rules at the next word</td></tr>
+    <tr><td class="mono">startFresh: true</td><td>treat the text start as an utterance start: hamzat al-waṣl is pronounced with its derived start vowel, and a gemination carried in from cross-verse idghām is dropped</td></tr>
+  </table></div>
+</section>
+
+<section id="rules">
+  <h2>What changes at a stop</h2>
+  <ul>
+    <li><b>madd ʿāriḍ lil-sukūn</b>: a madd letter before the final letter of a
+      stopped-on word; two, four or six counts at the pause.</li>
+    <li><b>madd līn</b>: a wāw or yāʾ sākinah after fatḥah before the pause sukūn; the
+      same three durations.</li>
+    <li><b>qalqalah kubrā</b>: a qalqalah letter ending the utterance.</li>
+    <li><b>madd ʿiwaḍ</b>: tanwīn fatḥ replaced by an alif of two counts.</li>
+    <li><b>rawm and ishmām</b>: the transmitted performance options on a lost ḍammah or
+      kasrah, emitted as options rather than obligations.</li>
+    <li><b>the open tāʾ</b>: where the feminine tāʾ is written open in the rasm, the
+      stop keeps the tāʾ sound; the engine notes it at stop.</li>
+    <li>and in the other direction, idghām across the seam, munfaṣil into the next
+      verse, and similar cross-boundary rules exist only in continuation.</li>
+  </ul>
+  <p>Where two madd causes compete at a stop (for instance ʿāriḍ against a standing
+  muttaṣil), the aqwā al-maddayn precedence applies: the stronger cause governs.</p>
+</section>
+
+<section id="marks">
+  <h2>The printed stop marks</h2>
+  <p>The muṣḥaf's stop marks are guidance printed for the reader: where stopping is
+  required, preferred, permitted or disliked, and where a breathless pause is
+  transmitted. They are not derivable from orthography and are not treated as rules;
+  the library carries them as data, per verse, through <code>getWaqfMarks</code>:</p>
+  <div class="scroller"><table class="canon">
+    <tr><th>mark</th><th>kind</th><th>meaning</th></tr>
+    <tr><td class="ar">ۘ</td><td class="mono">lazim</td><td>stop required</td></tr>
+    <tr><td class="ar">ۗ</td><td class="mono">preferred-stop</td><td>stopping preferred (qilā)</td></tr>
+    <tr><td class="ar">ۚ</td><td class="mono">permitted</td><td>stopping permitted (jīm)</td></tr>
+    <tr><td class="ar">ۖ</td><td class="mono">preferred-continue</td><td>continuing preferred (ṣilā)</td></tr>
+    <tr><td class="ar">ۙ</td><td class="mono">forbidden</td><td>do not stop (lā)</td></tr>
+    <tr><td class="ar">ۛ</td><td class="mono">muanaqah</td><td>stop at one of the pair, not both</td></tr>
+    <tr><td class="ar">ۜ</td><td class="mono">sakt</td><td>breathless pause, transmitted sites</td></tr>
+    <tr><td class="ar">۩</td><td class="mono">sajdah</td><td>prostration sign</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">The four transmitted sakt sites of Ḥafṣ by
+  al-Shāṭibiyyah are riwāyah data (<code>HAFS_SAKT_SITES</code>); a sakt blocks
+  assimilation across it, and <code>annotateVerse</code> applies the sites
+  automatically.</p>
+</section>

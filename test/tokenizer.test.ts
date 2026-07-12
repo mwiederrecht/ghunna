@@ -41,7 +41,7 @@ describe("tokenize: structure", () => {
   });
 
   it("treats tatweel + hamza-above as a hamza letter (canonical drift form)", () => {
-    // exact corpus sequence (NOT NFC — normalization would reorder the marks):
+    // exact corpus sequence (NOT NFC: normalization would reorder the marks):
     // ل ِ ل ْ [ـ ٔ] َ ا خ ِ ر َ ة ِ
     const word = "لِلْـَٔاخِرَةِ";
     const l = L(word);

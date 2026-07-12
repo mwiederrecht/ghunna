@@ -28,7 +28,7 @@ export interface AnnotateOptions {
   saktAfterWord?: readonly number[];
   /**
    * Recitation mode:
-   *  - "continue" (default): the text flows into what follows — no stop at end
+   *  - "continue" (default): the text flows into what follows: no stop at end
    *  - "stop": the reciter stops at the end of the text (waqf rules at the
    *    final word: madd ʿāriḍ, madd līn, qalqalah kubrā, madd ʿiwaḍ, …)
    *  - "both": union of both runs; annotations exclusive to one mode carry
@@ -61,11 +61,11 @@ export class DerivationError extends Error {
 /**
  * Names of the fourteen fawātiḥ letters (tuhfah:53–57).
  * madd: "none" (alif), "two" (two-letter names حي طهر), "six" (كم عسل نقص),
- * "ayn" (wajhān 4/6 — līn, tuhfah:54).
+ * "ayn" (wajhān 4/6: līn, tuhfah:54).
  * final: the name's closing consonant (drives assimilation across names).
  */
 const HARF_NAMES: ReadonlyMap<number, { madd: "none" | "two" | "six" | "ayn"; final: number | null }> = new Map([
-  [ALEF, { madd: "none", final: null }], // ألف — ends with ف but no madd section
+  [ALEF, { madd: "none", final: null }], // ألف: ends with ف but no madd section
   [LAM, { madd: "six", final: MEEM }], // لام
   [MEEM, { madd: "six", final: MEEM }], // ميم
   [SAD, { madd: "six", final: DAL }], // صاد
@@ -174,13 +174,13 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
   const isUtteranceStart = (w: number): boolean =>
     (w === 0 && startFresh) || (w > 0 && stops.has(w - 1));
 
-  /** Letters consumed as the *first* member of an adjacent-idghām pair —
+  /** Letters consumed as the *first* member of an adjacent-idghām pair :
    *  suppresses qalqalah on the assimilated letter. */
   const idghamConsumed = new Set<Letter>();
-  /** Definite-article lāms — owned by the lām rules, excluded from the
+  /** Definite-article lāms: owned by the lām rules, excluded from the
    *  adjacent-consonant idghām pass (ٱلرَّحْمَٰن is shamsiyyah, not mutaqāribayn). */
   const articleLams = new Set<Letter>();
-  /** Shaddah letters that are the target of an NS/mīm idghām span —
+  /** Shaddah letters that are the target of an NS/mīm idghām span :
    *  suppresses the standalone ghunnah-mushaddadah annotation. */
   const idghamTarget = new Set<Letter>();
 
@@ -244,7 +244,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
           else if (info.final === NOON && YANMU.has(nextL.base)) muthaqqal = true; // طسٓمّٓ
         }
         if (info.madd === "ayn") {
-          // wajhān 4/6 (tuhfah:54) — emitted as lāzim with flag in derivation
+          // wajhān 4/6 (tuhfah:54): emitted as lāzim with flag in derivation
           emit("madd-lazim-harfi-mukhaffaf", range, ch(l), null, "flagged");
         } else {
           emit(muthaqqal ? "madd-lazim-harfi-muthaqqal" : "madd-lazim-harfi-mukhaffaf", range, ch(l), null);
@@ -258,7 +258,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
             // within the fawātiḥ word (طسٓمٓ): idghām with ghunnah
             emit("idgham-bighunnah", [l.start, nb.end], ch(l), baseCh(nb));
           } else if (nextL === null && nb.base === WAW) {
-            // نٓ وَٱلْقَلَمِ / يسٓ وَٱلْقُرْءَانِ — Ḥafṣ: iẓhār (izhar mutlaq)
+            // نٓ وَٱلْقَلَمِ / يسٓ وَٱلْقُرْءَانِ: Ḥafṣ: iẓhār (izhar mutlaq)
             emit("izhar-mutlaq", [l.start, l.end], ch(l), baseCh(nb));
           } else if (IKHFA_LETTERS.has(nb.base)) {
             // كهيعص (ن + ص), حم عسق (ن + س): ikhfāʾ
@@ -287,7 +287,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
           name: RULE_META["hamzat-wasl"].name,
           range: [l.start, l.end],
           trigger: { letters: ch(l), description: RULE_META["hamzat-wasl"].name.english },
-          derivation: `starting at hamzat al-waṣl: pronounced with ${sv.vowel} — ${sv.why}`,
+          derivation: `starting at hamzat al-waṣl: pronounced with ${sv.vowel}: ${sv.why}`,
           citation: { text: "jazariyyah", lines: [100, 101, 102] },
           waqfDependent: true,
           confidence: sv.confidence,
@@ -306,12 +306,12 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     }
 
     // the seen-substitution ṣād (يَبْصُۜطُ 2:245, بَصْۜطَةً 7:69): the written ṣād
-    // is not recited (a sīn is) — annotated as silent, flagged
+    // is not recited (a sīn is): annotated as silent, flagged
     if (l.ortho.includes(SEEN_SUBST_HIGH)) {
       emit("silent", [l.start, l.end], ch(l), null, "flagged");
     }
 
-    // the unique in-flow ishmām word تَأْمَ۫نَّا (12:11) — marked in the text
+    // the unique in-flow ishmām word تَأْمَ۫نَّا (12:11): marked in the text
     if (l.ortho.includes(ISHMAM)) {
       emit("ishmam", [l.start, l.end], ch(l), null);
     }
@@ -332,7 +332,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
       const np = nextPronounced(fi);
       const nl = nextLetter(fi);
       // junction vocalization: NS/tanwīn immediately before hamzat waṣl gets a
-      // helping vowel — no NS rule fires
+      // helping vowel: no NS rule fires
       const beforeWasl = nl !== null && nl.letter.base === HAMZAT_WASL && nl.letter.silent === null
         ? true
         : np !== null && np.word !== p.word &&
@@ -340,9 +340,9 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
       // (the second clause guards tanwīn + ٱلْ where the wasl is word-initial)
       if (np === null) {
         // verse-final NS (continuation mode treats verse end as continuing to
-        // nothing) — no rule fires; Phase 2 handles stops
+        // nothing): no rule fires; Phase 2 handles stops
       } else if (beforeWasl && hasTanwin) {
-        // عَادًا ٱلْأُولَىٰ — tanwīn nūn takes a kasrah at the junction
+        // عَادًا ٱلْأُولَىٰ: tanwīn nūn takes a kasrah at the junction
       } else {
         const nb = np.letter.base;
         const sameWord = np.word === p.word;
@@ -414,7 +414,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
             nl.base === LAM && nl.shadda &&
             p.idx + 2 < w.letters.length && w.letters[p.idx + 2]!.base === HEH;
           if (isJalalah) {
-            articleLams.add(l); // still an article lām — not mutaqāribayn
+            articleLams.add(l); // still an article lām: not mutaqāribayn
           } else if (SHAMSI_LETTERS.has(nl.base) && nl.shadda) {
             // true article assimilation always writes the shaddah; a sun letter
             // WITHOUT shaddah after ٱلْ is an iftaʿala verb (ٱلْتَقَى), not the
@@ -426,7 +426,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
             emit("lam-qamariyyah", [l.start, l.end], ch(l), baseCh(nl));
             articleLams.add(l);
           }
-          // otherwise: not the definite article (verb lām etc.) — no emission
+          // otherwise: not the definite article (verb lām etc.): no emission
         }
       }
     }
@@ -437,7 +437,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
       p.idx >= 1 && w.letters[p.idx - 1]!.base === LAM &&
       p.idx + 1 < w.letters.length && w.letters[p.idx + 1]!.base === HEH
     ) {
-      // ... لـلّـه — find the governing preceding vowel (may cross words)
+      // ... لـلّـه: find the governing preceding vowel (may cross words)
       const heh = w.letters[p.idx + 1]!;
       const isFinalHeh = p.idx + 2 === w.letters.length ||
         w.letters.slice(p.idx + 2).every((x) => x.silent !== null || x.base === DAGGER_ALIF ||
@@ -454,7 +454,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
           if (q.base === HAMZAT_WASL) continue;
           if (q.vowel !== null) { gv = q.vowel; break; }
           if (q.tanwin !== null) { gv = q.tanwin === "kasr" ? "kasra" : q.tanwin === "damm" ? "damma" : "fatha"; break; }
-          if (isPronounced(flat[j]!, verse)) break; // pronounced but vowel-less (sākin) — start fresh: tafkhīm
+          if (isPronounced(flat[j]!, verse)) break; // pronounced but vowel-less (sākin): start fresh: tafkhīm
         }
         const rule: RuleId = gv === "kasra" ? "lam-jalalah-tarqiq" : "lam-jalalah-tafkhim";
         emit(rule, [w.letters[p.idx - 1]!.start, heh.end], sliceText(verse, w.letters[p.idx - 1]!.start, heh.end), null);
@@ -465,7 +465,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     if (
       (l.base === MEEM || l.base === NOON) && l.shadda && !idghamTarget.has(l) &&
       // a word-initial shaddah (from cross-verse idghām) is dropped when
-      // starting there — recite the single letter, no ghunnah
+      // starting there: recite the single letter, no ghunnah
       !(p.idx === 0 && isUtteranceStart(p.word))
     ) {
       emit("ghunnah-mushaddadah", [l.start, l.end], ch(l), null);
@@ -526,7 +526,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     const f = L[i]!;
 
     if (f.silent === "wasl") {
-      // أَنَا۠ / قَوَارِيرَا۠: the alif surfaces at the stop — natural madd
+      // أَنَا۠ / قَوَارِيرَا۠: the alif surfaces at the stop: natural madd
       emit("madd-tabii", [f.start, f.end], ch(f), null);
       continue;
     }
@@ -546,7 +546,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     if (QALQALAH_LETTERS.has(f.base)) {
       emit("qalqalah-kubra", [f.start, f.end], ch(f), null);
     }
-    // open-tāʾ rasm (jazariyyah:93–99): the feminine tāʾ written ت (not ة) —
+    // open-tāʾ rasm (jazariyyah:93–99): the feminine tāʾ written ت (not ة) :
     // stopping keeps the tāʾ sound. The rasm itself selects the sites; the
     // word list guards against ordinary verb tāʾs.
     if (f.base === TEH && isOpenTaWord(w)) {
@@ -560,7 +560,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     } else if (f.vowel === "kasra" || f.tanwin === "kasr") {
       emit("rawm", [f.start, f.end], ch(f), null);
     }
-    // stopping on rāʾ: the dropped vowel no longer governs — look back
+    // stopping on rāʾ: the dropped vowel no longer governs: look back
     // (jazariyyah:40 "كذاك بعد الكسر حيث سكنت"): yāʾ sākinah or kasrah before
     // → tarqīq; an intervening sākin istiʿlāʾ letter after kasrah (مِصْر،
     // ٱلْقِطْر) is a transmitted khilāf → flagged tafkhīm; else tafkhīm.
@@ -587,8 +587,8 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     if (i > 0) {
       const before = L[i - 1]!;
       const bIdx = i - 1;
-      // aqwā al-maddayn: if the stronger muttaṣil (hamzah final — ٱلسَّمَآءِ) or
-      // lāzim (shaddah final — جَآنٌّ) already governs this madd letter, the
+      // aqwā al-maddayn: if the stronger muttaṣil (hamzah final: ٱلسَّمَآءِ) or
+      // lāzim (shaddah final: جَآنٌّ) already governs this madd letter, the
       // ʿāriḍ upgrade does not apply
       const strongerCause = HAMZA_FAMILY.has(f.base) || f.shadda;
       if (isMaddLetter(L, bIdx) && !strongerCause) {
@@ -613,7 +613,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
 
     // ض/ظ contact: distinguishing them is obligatory (jazariyyah:59
     // أنقض ظهرك، يعض الظالم). The scan looks through an assimilated article
-    // lām (يَعَضُّ ٱلظَّالِمُ — the lām is unpronounced).
+    // lām (يَعَضُّ ٱلظَّالِمُ: the lām is unpronounced).
     if ((l.base === DAD || l.base === ZAH) && l.silent === null) {
       let np = nextPronounced(fi);
       if (np !== null && np.letter.base === LAM && isSakin(np.letter) && !np.letter.shadda) {
@@ -673,7 +673,7 @@ function runPass(verse: TokenizedVerse, cfg: PassConfig): Annotation[] {
     if (prev.vowel === "kasra") {
       // original kasrah before sākin rāʾ → tarqīq, unless an unseparated
       // istiʿlāʾ letter follows in the same word (قِرْطَاس); an istiʿlāʾ letter
-      // that itself carries kasrah is the transmitted khilāf (فِرْقٍ — jaz:42)
+      // that itself carries kasrah is the transmitted khilāf (فِرْقٍ: jaz:42)
       const next = p.idx + 1 < w.letters.length ? w.letters[p.idx + 1]! : null;
       if (next !== null && ISTILA_LETTERS.has(next.base)) {
         if (next.vowel === "kasra" || next.tanwin === "kasr") {
@@ -756,7 +756,7 @@ function startWaslVowel(w: Word): { vowel: string; why: string; confidence: "cer
     }
   }
   // verb: third letter's vowel decides (jazariyyah:100–101). A ḍammah that is
-  // not original (ٱقْضُوا۟-type) still takes kasrah — flagged, morphology-level.
+  // not original (ٱقْضُوا۟-type) still takes kasrah: flagged, morphology-level.
   const third = L[2];
   if (third !== undefined && third.vowel === "damma") {
     return { vowel: "ḍammah", why: "the verb's third letter carries ḍammah (jazariyyah:100)", confidence: "flagged" };
@@ -764,12 +764,12 @@ function startWaslVowel(w: Word): { vowel: string; why: string; confidence: "cer
   return { vowel: "kasrah", why: "the verb's third letter carries fatḥah/kasrah (jazariyyah:101)", confidence: "certain" };
 }
 
-/** Ḥafṣ mutajānisayn pairs (first sākin): ت/ط ط/ت ت/د د/ت ذ/ظ ث/ذ ب/م — tuhfah:32–33, jazariyyah:50. */
+/** Ḥafṣ mutajānisayn pairs (first sākin): ت/ط ط/ت ت/د د/ت ذ/ظ ث/ذ ب/م: tuhfah:32–33, jazariyyah:50. */
 const MUTAJANIS_PAIRS: ReadonlySet<string> = new Set([
   `${TEH},${TAH}`, `${TAH},${TEH}`, `${TEH},${DAL}`, `${DAL},${TEH}`,
   `${THAL},${ZAH}`, `${THEH},${THAL}`, `${BEH},${MEEM}`,
 ]);
-/** Ḥafṣ mutaqāribayn pairs: ل/ر ق/ك — tuhfah:31, jazariyyah:45, 49. */
+/** Ḥafṣ mutaqāribayn pairs: ل/ر ق/ك: tuhfah:31, jazariyyah:45, 49. */
 const MUTAQARIB_PAIRS: ReadonlySet<string> = new Set([
   `${LAM},${REH}`, `${QAF},${KAF}`,
 ]);
@@ -819,13 +819,13 @@ function annotateMadd(
       const nb = nextInWord.base;
       const hamzaVoweled = nextInWord.vowel !== null || nextInWord.tanwin !== null;
       if (HAMZA_FAMILY.has(nb) && hamzaVoweled) {
-        // (a sākin hamzah after a madd letter — فَٱدَّٰرَٰٔتُمْ — does not make
+        // (a sākin hamzah after a madd letter: فَٱدَّٰرَٰٔتُمْ: does not make
         // muttaṣil; the madd stays ṭabīʿī. ASSUMPTIONS A-008.)
         //
-        // Particle contractions — المد المنفصل الحكمي: the vocative يَا
+        // Particle contractions: المد المنفصل الحكمي: the vocative يَا
         // (يَٰٓأَيُّهَا، يَٰٓـَٔادَمُ) and deictic هَا (هَٰٓأَنتُمْ، هَٰٓؤُلَآءِ) are
         // written joined to the following hamzah-initial word but are separate
-        // words in ruling — the literature names this munfaṣil ḥukmī, and the
+        // words in ruling: the literature names this munfaṣil ḥukmī, and the
         // qirāʾāt confirm it (readers who shorten munfaṣil shorten هؤلاء).
         // Structural test: dagger alif at index 1 after a word-initial ي/ه.
         const isParticle =
@@ -839,7 +839,7 @@ function annotateMadd(
         continue;
       }
       if (HAMZA_FAMILY.has(nb) && !hamzaVoweled) {
-        // sākin hamzah after madd (فَٱدَّٰرَٰٔتُمْ) — ṭabīʿī (A-008)
+        // sākin hamzah after madd (فَٱدَّٰرَٰٔتُمْ): ṭabīʿī (A-008)
         emitTabiiOrBadal(letters, p.idx, range, trigger, emit);
         continue;
       }
@@ -848,7 +848,7 @@ function annotateMadd(
         continue;
       }
       if (isSakin(nextInWord) && !isMaddLetter(letters, letters.indexOf(nextInWord))) {
-        // original sukūn after madd letter in one word (آلْـَٰٔنَ) — rare
+        // original sukūn after madd letter in one word (آلْـَٰٔنَ): rare
         emit("madd-lazim-kalimi-mukhaffaf", [l.start, nextInWord.end], trigger, String.fromCodePoint(nb));
         continue;
       }
@@ -857,7 +857,7 @@ function annotateMadd(
       continue;
     }
 
-    // word-final madd letter — look at the next word (unless a stop intervenes)
+    // word-final madd letter: look at the next word (unless a stop intervenes)
     const nw =
       p.word + 1 < words.length && !stops.has(p.word) ? words[p.word + 1]! : null;
     if (nw === null) {
@@ -868,7 +868,7 @@ function annotateMadd(
     }
     const first = nw.letters[0]!;
     if (first.base === HAMZAT_WASL) {
-      // iltiqāʾ al-sākinayn: the madd letter is elided (فِى ٱلْأَرْضِ) — no madd
+      // iltiqāʾ al-sākinayn: the madd letter is elided (فِى ٱلْأَرْضِ): no madd
       continue;
     }
     if (HAMZA_FAMILY.has(first.base)) {
@@ -891,8 +891,8 @@ function emitTabiiOrBadal(
   trigger: string,
   emit: Emit
 ): void {
-  // badal: the madd letter's governing predecessor is a hamzah (آمَنُوا — in
-  // Tanzil spelled ءَامَنُوا) — tuhfah:46
+  // badal: the madd letter's governing predecessor is a hamzah (آمَنُوا: in
+  // Tanzil spelled ءَامَنُوا): tuhfah:46
   let j = i - 1;
   while (j >= 0) {
     const q = letters[j]!;

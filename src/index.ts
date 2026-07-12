@@ -1,5 +1,5 @@
 /**
- * ghunna — the tajweed library: derivation engine for classical tajweed.
+ * ghunna: the tajweed library: derivation engine for classical tajweed.
  *
  * Ask for a verse, get its rules: every annotation carries the rule that
  * fired, the trigger characters, a human-readable derivation, and a citation

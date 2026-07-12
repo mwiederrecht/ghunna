@@ -1,0 +1,151 @@
+<!-- title: Verification: method and results | nav: verification -->
+<section style="padding-bottom: 8px">
+  <p class="label">Verification</p>
+  <h1>Method and results.</h1>
+  <p class="lede">A derivation engine can be wrong in ways a lookup table cannot. This
+  page describes exactly how the engine's output was checked, against what, and with what
+  outcome.</p>
+</section>
+
+<section id="problem">
+  <h2>The verification problem</h2>
+  <p>The library derives its annotations from the letters and diacritics of the text. The
+  question any user should ask is whether those derivations agree with the received
+  tradition of tajweed annotation: the colored maṣāḥif reviewed and printed under
+  scholarly supervision. Answering that question requires an independent record of what
+  the tradition annotates, a way to align the two records span by span, and a disciplined
+  procedure for the places where they disagree.</p>
+  <p>One principle governs the whole exercise. The Uthmani text encoding carries printed
+  pronunciation hints: the small mīm placed at iqlāb sites, the maddah sign written over
+  madds that are to be lengthened, the small unvoweled letters. The engine is forbidden
+  to read these. They are outcome markers, and an engine that reads outcome markers is
+  not deriving anything; it is transcribing. The hints are reserved for the test side of
+  the comparison, where they are part of what the tradition says the outcome should be.
+  This separation is what makes the comparison meaningful in both directions.</p>
+</section>
+
+<section id="materials">
+  <h2>The comparison materials</h2>
+  <h3>Dataset 1: cpfair/quran-tajweed</h3>
+  <p>The primary machine-readable reference is
+  <a href="https://github.com/cpfair/quran-tajweed">cpfair/quran-tajweed</a> (CC-BY 4.0),
+  a whole-Qurʾān table of tajweed spans that states its descent from the Dar al-Maarifah
+  colored tajweed muṣḥaf. It covers the nūn sākinah and mīm sākinah families, ghunnah,
+  qalqalah, the lām rules, hamzat al-waṣl, silence, and a madd classification. Its span
+  indices are pinned to a 2017 snapshot of the Tanzil text; the current Tanzil snapshot
+  the library vendors differs slightly, so an explicit per-verse index-mapping layer
+  bridges the two. Any residual misalignment would surface as spurious diffs, and none
+  do.</p>
+  <h3>Dataset 2: the Quran.com tajweed edition</h3>
+  <p>The second dataset is the Quran.com v4 tajweed text (the KFGQPC annotation
+  convention as inline markup). It is coarser in places: it merges the muttaṣil and
+  munfaṣil madd classes into a single obligatory-length class, so it is neutral on some
+  disputes; where it speaks, its testimony is recorded per site. It was consulted at
+  every disagreement site, and the disputed verses are vendored in the private
+  verification workspace.</p>
+  <h3>Source of last resort: the printed page</h3>
+  <p>Both datasets claim descent from printed muṣḥaf conventions. Where they disagree
+  with the engine, or with each other, the printed Dar al-Maarifah tajweed muṣḥaf itself
+  was consulted: the muṣḥaf is scanned at archive.org, and the disputed sites were
+  inspected in the page images directly, with crops archived in the verification
+  workspace. This matters because a dataset is itself a digitization, with digitization
+  errors; the printed page is the thing both datasets claim to encode.</p>
+  <h3>The literature</h3>
+  <p>Above all three sits the published tajweed literature: the two source poems, their
+  commentaries, and the standard modern references (al-Mīzān fī Aḥkām Tajwīd al-Qurʾān,
+  Hidāyat al-Qārī, Ghāyat al-Murīd, Sharḥ Ṭayyibat al-Nashr, and the fatwa and teaching
+  literature). Every disagreement group was researched against it twice, on 2026-07-11
+  and again independently on 2026-07-12. The engine follows the books; where a dataset
+  and the books disagree, the books win.</p>
+</section>
+
+<section id="procedure">
+  <h2>The procedure</h2>
+  <p>A diff harness runs the engine over all 6,236 verses and aligns its output with the
+  reference dataset span by span, in both recitation framings: continuation mode, and
+  stop mode under the oracle's own pause assumptions. Before anything is counted as a
+  disagreement, the harness classifies and sets aside the systematic differences of
+  scope that are not disputes about rules at all:</p>
+  <ul>
+    <li><b>The basmalah prefix.</b> The reference dataset does not annotate the basmalah
+      line at surah openings; the engine does. These spans are excluded from the
+      comparison rather than counted as wins.</li>
+    <li><b>Verse-boundary pause assumptions.</b> Spans that exist only because the two
+      sides assume different behavior at the verse seam are classified as boundary
+      artifacts and compared within each framing separately.</li>
+    <li><b>Plain ṭabīʿī scope.</b> The reference annotates ordinary two-count madd only
+      in restricted circumstances (dagger alif, ṣila); the engine annotates every
+      natural madd. Scope differences of this kind are not rule disagreements.</li>
+    <li><b>Fawātiḥ scope.</b> The opening-letter verses involve rules that apply to
+      letter names rather than written letters; annotation conventions structurally
+      differ there (see group R-007 in <a href="/residue">the residue</a>).</li>
+  </ul>
+  <p>What remains after this classification is the honest disagreement: sites where the
+  engine and the reference assert different rules over the same letters under the same
+  assumptions. Each such site is then researched individually.</p>
+</section>
+
+<section id="results">
+  <h2>Results</h2>
+  <div class="scroller"><table class="canon">
+    <tr><th></th><th>continuation mode</th><th>stop mode</th></tr>
+    <tr><td>agreement over mapped categories</td><td class="mono">99.80%</td><td class="mono">99.82%</td></tr>
+    <tr><td>disagreement sites, whole Qurʾān</td><td class="mono">108</td><td class="mono">108</td></tr>
+    <tr><td>sites explained and documented</td><td class="mono">108 of 108</td><td class="mono">108 of 108</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">The 108 sites fall into six groups, catalogued in full in
+  <a href="/residue">the residue</a>. The finding, stated plainly: in all six groups the
+  published literature and, where it speaks, the printed page support the engine's
+  derivation over the datasets' annotation. No group required the engine to change to
+  match the data; one early divergence (2:72) turned out to be a defect in the engine's
+  own letter model, and is documented as such.</p>
+</section>
+
+<section id="root-cause">
+  <h2>The root cause of most of it</h2>
+  <p>Ninety of the 108 sites reduce to one defect in the reference dataset, and the
+  defect is not inferred; it is visible in the dataset's own published source. cpfair
+  ships the decision trees its classifier learned. The madd trees branch first on
+  <code>0_has_maddah</code>, the printed maddah sign, and then distinguish muttaṣil from
+  munfaṣil by the written form of the hamzah: a hamzah seated on alif routes to
+  munfaṣil, while an isolated hamzah or one seated on wāw, yāʾ or a stem routes to
+  muttaṣil.</p>
+  <p>Two conclusions follow. First, the dataset is a decoder of printed annotation
+  hints, not a derivation of rules; its root split is literally the printed outcome
+  marker. Second, the seat-of-the-hamzah criterion is not the rule. The rule turns on
+  whether the madd letter and the hamzah belong to one word or two, and the word
+  boundary in هَٰٓؤُلَآءِ and يَٰٓـَٔادَمُ (the vocative and deictic particles, written
+  joined) points one way while the hamzah seat points the other. At exactly those sites
+  the dataset misclassifies in one direction, and at تَبُوٓأَ, تَنُوٓأُ and ٱلسُّوٓأَىٰ,
+  single words with an alif-seated hamzah, it misclassifies in the opposite direction.
+  The same criterion that reproduces its correct outputs reproduces all ninety errors.
+  The full argument, with the literature on the munfaṣil ḥukmī category, is in
+  <a href="/residue#r-003">residue group R-003</a>.</p>
+</section>
+
+<section id="tafkhim">
+  <h2>The blue class the datasets never carried</h2>
+  <p>Inspection of the printed pages produced one finding that reframes several groups
+  at once. The Dar al-Maarifah print uses a color class, blue, for tafkhīm: the lām of
+  the divine name at tafkhīm sites, the istiʿlāʾ letters, and the retained iṭbāq of the
+  partially assimilated ṭāʾ in بَسَطتَ and its family. Neither dataset carries this
+  class at all. That one omission explains, in a single stroke, the datasets' missing
+  jalālah annotations, their missing idghām nāqiṣ sites, and their asymmetric treatment
+  of ٱللَّهُمَّ. The engine derives the whole family; to our knowledge this library is
+  the first digital implementation of the tafkhīm and tarqīq rules, and it was
+  spot-verified against the print's blue class directly.</p>
+</section>
+
+<section id="limits">
+  <h2>What this verification does and does not establish</h2>
+  <p>It establishes that over the whole Qurʾān, in both recitation framings, the
+  engine's derivations coincide with the received annotation tradition everywhere the
+  two speak to the same question, except at 108 sites; and that at those sites the
+  engine's position is the one the published literature and the printed page support.
+  It does not establish correctness on questions none of the comparison materials
+  address, and it is no substitute for talaqqī: the received, oral transmission of
+  recitation from a qualified teacher remains the only authority on performance. The
+  library documents rules; it does not certify recitation.</p>
+  <p>Open engineering and scholarly questions that remain are logged with their expected
+  diff signatures in <a href="/assumptions">assumptions</a>.</p>
+</section>

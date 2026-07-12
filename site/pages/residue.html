@@ -1,0 +1,206 @@
+<!-- title: The residue: every divergence, examined | nav: residue -->
+<section style="padding-bottom: 8px">
+  <p class="label">The residue <span class="n">108</span></p>
+  <h1>Every divergence, examined.</h1>
+  <p class="lede">The 108 sites where the engine and the reference datasets disagree,
+  in six groups. For each group: the sites, both readings, the evidence consulted, and
+  the verdict with its basis.</p>
+  <p>Method note. Each group was researched against the published tajweed literature
+  twice, in two independent passes (2026-07-11 and 2026-07-12), and checked against
+  both datasets and, where decisive, against page photographs of the printed Dar
+  al-Maarifah tajweed muṣḥaf. The engine is never changed merely to match a dataset;
+  it is changed when the evidence shows the engine wrong, which happened once (R-006,
+  documented below). The canonical record is
+  <a href="https://github.com/mwiederrecht/ghunna/blob/main/RESIDUE.md">RESIDUE.md</a>
+  in the repository.</p>
+</section>
+
+<section id="r-001">
+  <h2>R-001. Idghām mutajānisayn ṭāʾ into tāʾ: 4 sites</h2>
+  <p><b>Sites.</b> 5:28 بَسَطتَ, 12:80 فَرَّطتُمْ, 27:22 أَحَطتُ, 39:56 فَرَّطتُ.</p>
+  <p><b>The engine derives.</b> A ṭāʾ sākinah before tāʾ: same articulation point,
+  different attributes, therefore idghām mutajānisayn (Tuḥfah 32 and 33), and of the
+  incomplete (nāqiṣ) kind: the ṭāʾ's iṭbāq and istiʿlāʾ are retained through the
+  assimilation.</p>
+  <p><b>The datasets say.</b> Nothing, at all four sites. Both datasets key complete
+  idghām on the written shaddah of the following letter; the muṣḥaf's rasm convention
+  for partial idghām writes the ṭāʾ without sukūn and the tāʾ without shaddah, so a
+  shaddah-keyed transcriber sees nothing to transcribe. Notably, the Quran.com dataset
+  possesses an <code>idgham_mutajanisayn</code> class and fires it at قَد تَّبَيَّنَ
+  (2:256), where the shaddah is written; its silence at the nāqiṣ sites is therefore a
+  gap, not a position.</p>
+  <p><b>The literature.</b> The nāqiṣ doctrine at these exact words is standard. Al-Mīzān
+  fī Aḥkām Tajwīd al-Qurʾān names them in its chapter on the small mutajānis (p. 141);
+  al-Nuwayrī's Sharḥ Ṭayyibat al-Nashr carries the verse line "وبين الإطباق من أحطت مع
+  بسطت", which names two of the four sites in the poem itself; the teaching literature
+  (Ayman Suwayd's lessons among others) uses بسطت and أحطت as the canonical examples of
+  al-idghām al-nāqiṣ.</p>
+  <p><b>The print.</b> Page 112 of the Dar al-Maarifah muṣḥaf prints the ṭāʾ of بَسَطتَ
+  in blue, its retained-tafkhīm class: the idghām nāqiṣ doctrine rendered in color. The
+  datasets missed it because neither ever digitized the blue class.</p>
+  <p><b>Verdict.</b> The print annotates it, the literature names it, both datasets
+  dropped it. The engine's derivation stands.</p>
+</section>
+
+<section id="r-002">
+  <h2>R-002. The lām of ٱللَّهُمَّ: 6 sites</h2>
+  <p><b>Sites.</b> 3:26, 5:114, 8:32, 10:10, 39:46, 62:11, every occurrence of
+  ٱللَّهُمَّ.</p>
+  <p><b>The engine derives.</b> ٱللَّهُمَّ is the divine name with a suffixed mīm; its
+  doubled lām takes the divine-name rule (al-Jazariyyah 43): tafkhīm after a fatḥah or
+  ḍammah, tarqīq after a kasrah, exactly as in ٱللَّه.</p>
+  <p><b>The datasets say.</b> Both annotate the first lām of ٱللَّهُمَّ as
+  lām shamsiyyah, while giving ٱللَّه itself no lām annotation anywhere. The asymmetry
+  is the tell: the same lām in the same name is treated differently depending only on
+  whether a mīm follows.</p>
+  <p><b>The literature.</b> Current references state the rule for الله and اللهم
+  together, and one gives وَإِذْ قَالُوا۟ ٱللَّهُمَّ, which is 8:32, one of these six
+  sites, as its textbook example of the tafkhīm case.</p>
+  <p><b>The print.</b> The page images resolve the asymmetry completely. At 3:26 (a
+  tarqīq context) the first lām of ٱللَّهُمَّ is printed gray, the print's
+  assimilated-letter class, with the rest black. At 10:10 (tafkhīm contexts) the
+  jalālah lām of both ٱللَّهُمَّ and وَإِلَى ٱللَّهِ is printed blue, the tafkhīm
+  class. The print treats اللهم exactly like الله. The datasets digitized the gray as
+  lām shamsiyyah and dropped the blue class entirely; their asymmetry is a
+  digitization artifact, not a scholarly position.</p>
+  <p><b>Verdict.</b> The engine's jalālah tafkhīm and tarqīq output matches the print's
+  actual color distinction better than either dataset does.</p>
+</section>
+
+<section id="r-003">
+  <h2>R-003. Munfaṣil ḥukmī sites the reference calls muttaṣil: 45 sites</h2>
+  <p><b>Sites.</b> يَٰٓـَٔادَمُ at 2:33, 2:35, 20:117 and 20:120, and the first madd of
+  هَٰٓؤُلَآءِ at its 41 occurrences.</p>
+  <p><b>The engine derives.</b> The vocative يَا and the deictic هَا are written joined
+  to the following hamzah-initial word but are separate words in ruling. A madd letter
+  at the end of one word with a hamzah opening the next is madd munfaṣil (Tuḥfah 44,
+  "كُلٌّ بِكِلْمَةٍ"); when the separation is in ruling rather than in writing, the
+  category is munfaṣil ḥukmī.</p>
+  <p><b>The reference says.</b> Muttaṣil, at exactly these sites, while classifying
+  يَٰٓأَيُّهَا and هَٰٓأَنتُمْ (hamzah seated on alif) correctly as munfaṣil. The
+  criterion producing this split is visible in its published decision trees: it
+  branches on the written form of the hamzah, not on the word boundary. See
+  <a href="/verification#root-cause">the root-cause analysis</a>.</p>
+  <p><b>The literature.</b> The munfaṣil ḥukmī category is stated by name across the
+  literature, with these words as its standard examples. Ghāyat al-Murīd's chapter on
+  the munfaṣil states that the madd is ḥukmī in the vocative yāʾ and the deictic hāʾ
+  even when joined in the rasm; on هؤلاء specifically the analysis is explicit: the
+  first madd is jāʾiz munfaṣil in ruling rather than in writing, the word's origin
+  being ها أولاء, while the second madd, in لَآء, is wājib muttaṣil. The re-verification
+  pass confirmed the same doctrine independently in Hidāyat al-Qārī's treatment of the
+  connected-in-writing cases and in the general teaching literature.</p>
+  <p><b>The decisive test.</b> The two categories differ in law: muttaṣil is obligatory
+  lengthening by consensus, while munfaṣil admits shortening in the transmissions that
+  shorten it. The literature confirms the first madd of هؤلاء may be read at two counts
+  where qaṣr al-munfaṣil is transmitted (for Ḥafṣ, by ṭuruq of the Ṭayyibah). That
+  reading would be impermissible for a muttaṣil. The recitation tradition therefore
+  settles the classification independently of any dataset.</p>
+  <p><b>Verdict.</b> Reference-dataset defect; the engine's derivation stands. For
+  completeness: the engine originally matched the reference at هؤلاء under a one-word
+  reading, and was corrected to follow the literature on 2026-07-11. The correction was
+  made because of the books, not because of a dataset.</p>
+</section>
+
+<section id="r-004">
+  <h2>R-004. تَبُوٓأَ, تَنُوٓأُ, ٱلسُّوٓأَىٰ called munfaṣil: 3 sites</h2>
+  <p><b>Sites.</b> 5:29 تَبُوٓأَ, 28:76 تَنُوٓأُ, 30:10 ٱلسُّوٓأَىٰ.</p>
+  <p><b>The engine derives.</b> A madd letter followed by a hamzah inside one word is
+  muttaṣil by definition (Tuḥfah 43). These are single words, from the roots بوء, نوء
+  and سوء; there is no particle and no morpheme boundary at the madd.</p>
+  <p><b>The reference says.</b> Munfaṣil at all three: the same seat-of-the-hamzah
+  criterion as R-003, here firing in the opposite direction, because the hamzah happens
+  to be seated on an alif.</p>
+  <p><b>The literature.</b> The muttaṣil definition (madd and hamzah in one word) is
+  uncontested, and سوء-family words appear among the standard muttaṣil examples in the
+  references. No source treats any of these three words as munfaṣil.</p>
+  <p><b>Verdict.</b> Reference-dataset defect; the engine's derivation stands.</p>
+</section>
+
+<section id="r-005">
+  <h2>R-005. 17:7 لِيَسُـۥٓـُٔوا۟: 1 site</h2>
+  <p><b>The engine derives.</b> The small wāw restores a rasm-omitted letter of the word
+  لِيَسُوءُوا۟ itself. A madd letter followed by a voweled hamzah in the same word is
+  muttaṣil: four to five counts. It is not a ṣila; there is no pronoun hāʾ anywhere in
+  the word.</p>
+  <p><b>The datasets say.</b> Both give it two counts. The reference's tree apparently
+  treats every small wāw as a two-count ṣila; the Quran.com dataset does the same here,
+  and contradicts itself in doing so, since at 30:10 it marks the identical
+  pattern (wāw with maddah followed by hamzah, in ٱلسُّوٓأَ) as obligatory length. Only
+  the glyph differs between the two sites.</p>
+  <p><b>The print.</b> Decisive here. Page 282 prints the small wāw and its maddah in
+  red, the legend's obligatory madd of four or five counts. The muṣḥaf also prints the
+  maddah sign itself on this wāw, which is the printed hint for a long madd; both
+  datasets' two-count classification contradicts the very page they claim to encode.</p>
+  <p><b>Verdict.</b> Print-confirmed; the engine's derivation stands, and both datasets
+  carry a glyph-keyed undercount at this site.</p>
+</section>
+
+<section id="r-006">
+  <h2>R-006. 2:72 فَٱدَّٰرَٰٔتُمْ: resolved against the engine</h2>
+  <p>This entry is retained because a verification record that only ever finds the other
+  side wrong is not credible.</p>
+  <p><b>The puzzle.</b> The engine's early letter model read the superscript-alif and
+  hamzah cluster in فَٱدَّٰرَٰٔتُمْ as a dagger-alif madd letter followed by a sākin
+  hamzah, forcing an invented policy for a madd before a sākin hamzah, and produced a
+  madd annotation where the reference had none.</p>
+  <p><b>The resolution.</b> The tafsīr and iʿrāb literature vocalizes the word
+  iddāraʾtum (from تدارأتم, with the tāʾ assimilated into the dāl and a connective
+  hamzah prefixed; so al-Naḥḥās in Iʿrāb al-Qurʾān, and al-Bayḍāwī ad loc.). The hamzah
+  is sākinah directly after the rāʾ; there is no madd letter at that position. The
+  Tanzil cluster is a hamzah seated on a superscript alif, parallel to the
+  tatweel-seated hamzah. The tokenizer was corrected to treat the cluster as a single
+  hamzah letter; the spurious annotation disappeared; the reference's silence at this
+  site had been correct all along.</p>
+  <p><b>Verdict.</b> Engine letter-model defect, found by this comparison and fixed,
+  with regression tests. This is the verification process working as intended.</p>
+</section>
+
+<section id="r-007">
+  <h2>R-007. Assimilation across the fawātiḥ letter names: 6 sites</h2>
+  <p><b>Sites.</b> طسٓمٓ at 26:1 and 28:1 (the nūn ending the name of sīn assimilates
+  into mīm: idghām with ghunnah); كٓهيعٓصٓ at 19:1 (the nūn of ʿayn before ṣād:
+  ikhfāʾ); حمٓ عٓسٓقٓ at 42:1 and 42:2 (the nūn of ʿayn before sīn, and of sīn before
+  qāf: ikhfāʾ); and طسٓ تِلْكَ at 27:1 (the nūn of sīn before tāʾ, across the verse's
+  first word boundary: ikhfāʾ).</p>
+  <p><b>The engine derives.</b> The opening letters are recited by their names, and
+  several of those names end in a nūn sākinah. The nūn sākinah family then applies
+  between the names exactly as it would between words. This requires a model in which
+  rules operate on the recited letter names rather than the written letters, which the
+  engine implements for the fawātiḥ.</p>
+  <p><b>The datasets say.</b> Both annotate only the madd of the letter names; neither
+  carries any assimilation annotation inside a fawātiḥ verse.</p>
+  <p><b>The literature.</b> The recitation is not in dispute. The sources state that in
+  the hijāʾ of طسم the nūn is assimilated into the mīm by all readers except Ḥamzah and
+  Abū Jaʿfar (Ḥafṣ reads full idghām with ghunnah), and they note it explicitly as the
+  exception to the same-word restriction on idghām; the ikhfāʾ across كهيعص and عسق is
+  standard.</p>
+  <p><b>The print.</b> Page 367 shows طسٓمٓ carrying only the lāzim-madd coloring, and
+  necessarily so: the assimilating nūn exists in the letter name سين, which has no
+  glyph on the page to color. Print-style annotation is structurally unable to express
+  this rule. Only an engine that models letter names can annotate it.</p>
+  <p><b>Verdict.</b> An annotation-scope gap in both datasets, and an unavoidable one.
+  These six sites are classified as a scope difference rather than as dataset errors;
+  they are recorded because the underlying phenomenon, rules applying to letter names
+  rather than letters, is a genuine formalization point that distinguishes derivation
+  from transcription.</p>
+</section>
+
+<section id="summary">
+  <h2>Summary table</h2>
+  <div class="scroller"><table class="canon">
+    <tr><th>group</th><th>sites</th><th>nature</th><th>decisive evidence</th><th>verdict</th></tr>
+    <tr><td class="mono">R-001</td><td class="mono">4</td><td>idghām nāqiṣ dropped</td><td>print blue class; Ṭayyibah verse line</td><td>engine stands</td></tr>
+    <tr><td class="mono">R-002</td><td class="mono">6</td><td>ٱللَّهُمَّ lām asymmetry</td><td>print blue and gray classes</td><td>engine stands</td></tr>
+    <tr><td class="mono">R-003</td><td class="mono">45</td><td>munfaṣil ḥukmī called muttaṣil</td><td>literature by name; qaṣr test; reference's own trees</td><td>engine stands</td></tr>
+    <tr><td class="mono">R-004</td><td class="mono">3</td><td>muttaṣil called munfaṣil</td><td>morphology; muttaṣil definition</td><td>engine stands</td></tr>
+    <tr><td class="mono">R-005</td><td class="mono">1</td><td>muttaṣil undercounted at 2</td><td>print red class and printed maddah</td><td>engine stands</td></tr>
+    <tr><td class="mono">R-006</td><td class="mono">1</td><td>spurious madd at 2:72</td><td>tafsīr and iʿrāb vocalization</td><td>engine was wrong; fixed</td></tr>
+    <tr><td class="mono">R-007</td><td class="mono">6</td><td>fawātiḥ assimilation absent</td><td>qirāʾāt literature; structural limits of print annotation</td><td>scope gap, both datasets</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">The group counts above are word sites. The figure of 108
+  counts disagreement spans as the diff harness sees them, where one misclassified word
+  can contribute two spans: a class wrongly asserted and a class missing. Under that
+  accounting the seat-glyph defect of R-003 and R-004 accounts for 90 of the 108 spans,
+  and the remaining groups for the rest. Both accountings cover the same set of
+  disagreements; nothing is outside the catalog.</p>
+</section>

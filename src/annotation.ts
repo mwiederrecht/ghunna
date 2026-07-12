@@ -55,7 +55,7 @@ export type RuleId =
   | "sakt";
 
 export interface SourceRef {
-  /** Which classical text — citation targets in docs/sources/. */
+  /** Which classical text: citation targets in docs/sources/. */
   text: "tuhfah" | "jazariyyah";
   /** Line number(s) in the numbered source file. */
   lines: number[];

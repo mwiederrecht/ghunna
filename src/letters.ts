@@ -1,7 +1,7 @@
 /**
  * Letter profiles: articulation point (makhraj) and intrinsic properties
  * (ṣifāt) of every Arabic letter, transcribed from al-Muqaddimah
- * al-Jazariyyah — makhārij: lines 9–18; ṣifāt: lines 19–25.
+ * al-Jazariyyah: makhārij: lines 9–18; ṣifāt: lines 19–25.
  *
  * Pure data. `describeLetter("ص")` returns everything the classical text
  * says about the letter, each item carrying its line citation.
@@ -55,7 +55,7 @@ const GHUNNAH_SIFA: SifaInfo = { id: "ghunnah", arabic: "الغنة", transliter
 
 // ---- makhārij (jazariyyah:9–18) ----
 const M = {
-  jawf: { arabic: "الجوف — للألف والواو والياء المدية", english: "the empty space of mouth and throat (madd letters)", citation: J(10) },
+  jawf: { arabic: "الجوف: للألف والواو والياء المدية", english: "the empty space of mouth and throat (madd letters)", citation: J(10) },
   aqsaHalq: { arabic: "أقصى الحلق", english: "deepest part of the throat", citation: J(11) },
   wasatHalq: { arabic: "وسط الحلق", english: "middle of the throat", citation: J(11) },
   adnaHalq: { arabic: "أدنى الحلق", english: "nearest part of the throat", citation: J(12) },
@@ -71,7 +71,7 @@ const M = {
   tarafAtraf: { arabic: "طرف اللسان مع أطراف الثنايا العليا", english: "tongue tip with the edges of the upper incisors", citation: J(16, 17) },
   batnShafah: { arabic: "بطن الشفة السفلى مع أطراف الثنايا العليا", english: "inner lower lip with the upper incisor edges", citation: J(17) },
   shafatan: { arabic: "الشفتان", english: "the two lips", citation: J(18) },
-  khayshum: { arabic: "الخيشوم — مخرج الغنة", english: "the nasal passage (ghunnah)", citation: J(18) },
+  khayshum: { arabic: "الخيشوم: مخرج الغنة", english: "the nasal passage (ghunnah)", citation: J(18) },
 } as const;
 
 const P = (

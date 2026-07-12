@@ -1,0 +1,93 @@
+<!-- title: Architecture | nav: architecture -->
+<section style="padding-bottom: 8px">
+  <p class="label">Architecture</p>
+  <h1>How the engine is built.</h1>
+  <p class="lede">About 2,100 lines of TypeScript in three layers: a letter model, a
+  rule interpreter, and declarative rule data with citations. No runtime
+  dependencies.</p>
+</section>
+
+<section id="principles">
+  <h2>Design principles</h2>
+  <ul>
+    <li><b>Derive from letters and diacritics only.</b> The printed pronunciation hints
+      in the Uthmani encoding (small mīm, maddah, small unvoweled letters as outcome
+      markers) are never read by the engine. They are reserved for verification.</li>
+    <li><b>Rules as data, engine as interpreter.</b> Each rule's names, citation and
+      derivation templates live in a declarative table (<code>RULE_META</code>); the
+      engine implements the conditions. The scholar-facing specification
+      (<code>docs/SPEC.md</code>) is kept in sync with the engine by tests.</li>
+    <li><b>What cannot be derived is data, and is labeled as such.</b> The four
+      transmitted sakt sites of Ḥafṣ are riwāyah data; the printed waqf marks are
+      muṣḥaf data; meaning-based stop preferences are transmitted opinion. None of these
+      are derivable from orthography, so the library carries them as explicit data
+      rather than pretending to derive them.</li>
+    <li><b>Fail loudly.</b> Unknown codepoints, orphan marks and empty input throw.
+      Where the sources transmit two admissible readings, the annotation is emitted
+      with <code>confidence: "flagged"</code> rather than silently choosing one.</li>
+    <li><b>The riwāyah is a parameter.</b> Ḥafṣ by al-Shāṭibiyyah is the default
+      parameter set, not a hard-coded assumption. The architecture separates uṣūl
+      (rule parameters) from farsh (word-specific readings) so that further
+      transmissions can be added as parameter sets.</li>
+  </ul>
+</section>
+
+<section id="tokenizer">
+  <h2>Layer 1: the letter model</h2>
+  <p>The tokenizer turns a verse string into words and letters, resolving the encoding
+  questions that decide whether any later rule can be right:</p>
+  <ul>
+    <li>hamzah seats: a hamzah written on alif, wāw, yāʾ, a stem, or a superscript
+      alif is one letter, the hamzah, and the seat is not a separate letter;</li>
+    <li>the dagger alif and the small ṣila letters as madd vowels of the preceding
+      letter;</li>
+    <li>shaddah as gemination, including gemination created across word and verse
+      boundaries by idghām;</li>
+    <li>tanwīn as a nūn sākinah for rule purposes, carried on the final vowel;</li>
+    <li>combining-mark order preserved exactly as Tanzil writes it, which is why input
+      must not be NFC-normalized.</li>
+  </ul>
+  <p>One defect found during verification lived in this layer (a superscript-alif
+  hamzah read as a madd letter, <a href="/residue#r-006">R-006</a>); the letter model,
+  not the rules, is where such errors hide, which is why it is a separate layer with
+  its own tests.</p>
+</section>
+
+<section id="engine">
+  <h2>Layer 2: the interpreter</h2>
+  <p>The engine walks the tokenized text and evaluates each rule family's conditions:
+  the nūn sākinah and mīm sākinah families across word boundaries, the lām rules with
+  the article's attachment forms, the tafkhīm rules with their contextual conditions on
+  the rāʾ, the full madd family with the aqwā al-maddayn precedence when two causes
+  compete for one madd letter, and the fawātiḥ model, in which the opening letters are
+  expanded to their recited names and rules apply across the names. Recitation context
+  (continue, stop, stop-at-word, fresh start) enters as
+  <a href="/waqf">explicit parameters</a>, and mode-dependent annotations carry an
+  <code>appliesIn</code> label when both modes are requested.</p>
+</section>
+
+<section id="data">
+  <h2>Layer 3: the rule data</h2>
+  <p><code>RULE_META</code> carries, for each of the 41 rules: canonical Arabic name,
+  transliteration, English gloss, derivation templates in English and Arabic, the source
+  citation with line numbers, and the waqf-dependence flag. The poem transcriptions in
+  <code>docs/sources/</code> are the citation targets; the
+  <a href="/rules">rule catalog</a> on this site is generated from this table, and a
+  test suite enforces that the specification, the table and the engine agree.</p>
+</section>
+
+<section id="numbers">
+  <h2>Proportions</h2>
+  <div class="scroller"><table class="canon">
+    <tr><th>component</th><th>lines</th><th>role</th></tr>
+    <tr><td>engine.ts</td><td class="mono">917</td><td>the interpreter: all rule conditions</td></tr>
+    <tr><td>rules/meta.ts</td><td class="mono">307</td><td>rule table: names, citations, derivations</td></tr>
+    <tr><td>tokenizer.ts</td><td class="mono">268</td><td>the letter model</td></tr>
+    <tr><td>chars.ts, letters.ts</td><td class="mono">290</td><td>codepoint tables; letter profiles with makhraj and ṣifāt</td></tr>
+    <tr><td>remainder</td><td class="mono">~300</td><td>public API, verse lookup, waqf marks, riwāyah data</td></tr>
+    <tr><td>tests</td><td class="mono">692</td><td>110 tests, including spec-engine sync</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">The verification apparatus (diff harness, oracle mapping,
+  drift reports) is larger than the library itself and lives in the private verification
+  workspace; the library ships only what a consumer runs.</p>
+</section>

@@ -1,0 +1,83 @@
+<!-- title: ghunna, the tajweed library | nav: index -->
+<section style="padding-bottom: 8px">
+  <p class="label">ghunna</p>
+  <h1>Tajweed rules, derived.</h1>
+  <p class="lede">A derivation engine for classical tajweed. Vocalized Uthmani text in,
+  rule annotations out: every span carries its trigger letters, a derivation in English
+  and Arabic, and a citation to the line of the source poem it comes from.</p>
+  <div class="facts">
+    <span><b>41</b> rules</span>
+    <span><b>2</b> classical sources, cited to the line</span>
+    <span><b>99.80%</b> corpus agreement with independent datasets</span>
+    <span><b>108</b> divergence sites, each one examined and documented</span>
+    <span><b>110</b> tests</span>
+    <span><b>0</b> runtime dependencies</span>
+  </div>
+</section>
+
+<section id="example">
+  <h2>What a call returns</h2>
+  <pre><code><span class="k">import</span> { annotateVerse } <span class="k">from</span> "ghunna";
+
+<span class="k">const</span> { text, annotations } = annotateVerse(2, 255);
+
+<span class="c">// each annotation:</span>
+<span class="c">// {</span>
+<span class="c">//   rule: "iqlab",</span>
+<span class="c">//   name: { arabic: "الإقلاب", transliteration: "iqlāb", english: "conversion to mīm" },</span>
+<span class="c">//   range: [17, 22],            // codepoint range into text</span>
+<span class="c">//   derivation: "nūn sākinah/tanwīn followed by ب → the nūn is converted to a concealed mīm with ghunnah",</span>
+<span class="c">//   citation: { text: "tuhfah", lines: [13] },   // line 13 of Tuḥfat al-Aṭfāl</span>
+<span class="c">//   waqfDependent: false,</span>
+<span class="c">//   confidence: "certain",</span>
+<span class="c">// }</span></code></pre>
+  <p>The scope is riwāyat Ḥafṣ ʿan ʿĀṣim by ṭarīq al-Shāṭibiyyah. The library is pure
+  TypeScript, runs identically in the browser and in Node, and ships as ESM and CJS.</p>
+</section>
+
+<section id="derived">
+  <h2>Derived, not looked up</h2>
+  <p>Existing digital tajweed resources are, without exception we are aware of, encodings
+  of an already-annotated muṣḥaf: a fixed table of colored spans transcribed from a
+  printed page. This library takes the opposite approach. It implements the rules as
+  stated in the two canonical teaching poems, <a href="/sources">Tuḥfat al-Aṭfāl and
+  al-Muqaddimah al-Jazariyyah</a>, and derives every annotation from the letters and
+  diacritics of the text alone.</p>
+  <p>The distinction has a precise technical form. The Uthmani encoding carries
+  pronunciation hints printed in the muṣḥaf: the small mīm at iqlāb sites, the maddah
+  sign over long madds. The engine never reads them. They are reserved for
+  <a href="/verification">verification</a>, where the derived output is compared against
+  what the muṣḥaf tradition prints. A derivation engine can be checked against the
+  printed tradition; a transcription of the printed tradition cannot be checked against
+  anything.</p>
+  <p>Three consequences follow. First, every annotation can explain itself: the output
+  carries the derivation and the citation, not just a color class. Second, recitation
+  context becomes a parameter rather than a baked-in assumption; see
+  <a href="/waqf">the waqf model</a>. Third, rule families that the digital datasets never
+  carried at all, such as the tafkhīm and tarqīq family, can be derived like any other;
+  see <a href="/rules">the rule catalog</a>.</p>
+</section>
+
+<section id="verified">
+  <h2>Verified against the printed tradition</h2>
+  <p>The engine's output over all 6,236 verses is compared against two independent
+  datasets and, at every disputed site, against page photographs of the printed Dar
+  al-Maarifah tajweed muṣḥaf itself. Agreement over the mapped categories is 99.80% in
+  continuation mode and 99.82% in stop mode. The 108 sites of disagreement are not
+  averaged away: each one is classified, researched against the published tajweed
+  literature, and documented in <a href="/residue">the residue</a>. In every group the
+  evidence favors the rules as written over the datasets, and 90 of the 108 reduce to a
+  single identifiable defect in the reference dataset's madd classifier.</p>
+  <p><a href="/verification">Method and results in full.</a></p>
+</section>
+
+<section id="install">
+  <h2>Install</h2>
+  <pre><code>npm install ghunna</code></pre>
+  <pre><code><span class="c">// full package (bundled Qur'an text):</span>
+<span class="k">import</span> { annotateVerse, getVerseText } <span class="k">from</span> "ghunna";
+
+<span class="c">// corpus-free core: bring your own Tanzil-Uthmani-encoded text</span>
+<span class="k">import</span> { annotate, tokenize, RULE_META } <span class="k">from</span> "ghunna/core";</code></pre>
+  <p class="next"><a href="/start">Getting started →</a></p>
+</section>

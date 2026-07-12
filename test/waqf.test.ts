@@ -1,4 +1,4 @@
-/** Phase 2: the waqf (stop) model — stop-only rules, modes, stopAt. */
+/** Phase 2: the waqf (stop) model: stop-only rules, modes, stopAt. */
 import { describe, expect, it } from "vitest";
 import { annotate } from "../src/engine.js";
 import type { RuleId } from "../src/annotation.js";

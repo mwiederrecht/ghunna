@@ -1,7 +1,7 @@
 /**
  * Corpus-free entry point: the engine and tokenizer without the embedded
  * Qur'an text. Use `annotate(text)` with your own vocalized Uthmani text
- * (Tanzil Uthmani encoding), or import from "tajweed-engine" for
+ * (Tanzil Uthmani encoding), or import from "ghunna" for
  * `annotateVerse(surah, ayah)` with the bundled corpus.
  */
 export { annotate, annotateTokens, DerivationError } from "./engine.js";

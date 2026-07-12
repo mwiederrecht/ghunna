@@ -1,7 +1,7 @@
 /**
  * Riwāyah/ṭarīq parameter sets. Ḥafṣ ʿan ʿĀṣim via al-Shāṭibiyyah is the
  * shipped default (ASSUMPTIONS A-001). Nothing riwāyah-specific may live in
- * engine logic — only here.
+ * engine logic: only here.
  */
 
 export interface SaktSite {

@@ -40,9 +40,9 @@ export interface Letter {
   /** Explicit sukūn sign. Use isSakin() for the phonological question. */
   sukun: boolean;
   silent: "always" | "wasl" | null;
-  /** Ortho-class marks present (SPEC §0) — rule-readable. */
+  /** Ortho-class marks present (SPEC §0): rule-readable. */
   ortho: number[];
-  /** Hint-class marks present — recorded for span fidelity and debugging;
+  /** Hint-class marks present: recorded for span fidelity and debugging;
    *  rule data must never reference these (enforced by test). */
   hints: number[];
 }
@@ -77,7 +77,7 @@ export function isSilentInWasl(l: Letter): boolean {
 }
 
 /** Sākin = explicitly sukūned, or bare of any vocalization (positional sukūn).
- *  Madd letters are also bare — callers distinguish via vowel agreement. */
+ *  Madd letters are also bare: callers distinguish via vowel agreement. */
 export function isSakin(l: Letter): boolean {
   return l.sukun || (l.vowel === null && l.tanwin === null && !l.shadda && l.silent === null);
 }
@@ -124,7 +124,7 @@ export function tokenize(text: string): TokenizedVerse {
     if (BASE_LETTERS.has(c)) { newLetter(c, i, i + 1); continue; }
 
     if (c === DAGGER_ALIF) {
-      // base letter by convention — starts a new letter even though combining
+      // base letter by convention: starts a new letter even though combining
       newLetter(DAGGER_ALIF, i, i + 1);
       continue;
     }
@@ -140,7 +140,7 @@ export function tokenize(text: string): TokenizedVerse {
       throw new TokenizeError(`tatweel followed by unexpected ${hex(next)}`, i);
     }
 
-    // combining marks — must attach to a current letter
+    // combining marks: must attach to a current letter
     if (cur === null) {
       // spaced sakt sign in the marked variant: U+06DC after a space
       if (c === SEEN_SUBST_HIGH) {
@@ -164,7 +164,7 @@ export function tokenize(text: string): TokenizedVerse {
     } else if (c === HAMZA_ABOVE) {
       if (l.base === DAGGER_ALIF && l.end === i) {
         // superscript alif serving as a hamza SEAT (2:72 فَٱدَّٰرَٰٔتُمْ =
-        // فَادَّارَأْتُمْ — the hamza is sākinah right after رَ; there is no madd
+        // فَادَّارَأْتُمْ: the hamza is sākinah right after رَ; there is no madd
         // letter here). Convert the seat+mark cluster into one hamza letter.
         l.base = HAMZA;
         l.end = i + 1;
@@ -198,7 +198,7 @@ export function tokenize(text: string): TokenizedVerse {
 /**
  * The letter carrying the vowel that governs letters[i]'s madd status: usually
  * letters[i-1], but a bare seat letter (ا/ى/و with no marks, carrying a dagger
- * alif after it: عَلَىٰ، ٱلصَّلَوٰةَ) is transparent — skip back over it.
+ * alif after it: عَلَىٰ، ٱلصَّلَوٰةَ) is transparent: skip back over it.
  */
 function governingLetter(letters: readonly Letter[], i: number): Letter | null {
   for (let j = i - 1; j >= 0; j--) {
@@ -231,7 +231,7 @@ export function isMaddLetter(letters: readonly Letter[], i: number): boolean {
   // the imālah word (11:41 مَجْر۪ىٰهَا): the imālah sign stands in for the fatḥah
   const prevFatha = prev.vowel === "fatha" || prev.ortho.includes(IMALA);
   if (l.base === ALEF) {
-    // after tanwīn fatḥ the alif is the silent tanwīn seat (نَارًا), not madd —
+    // after tanwīn fatḥ the alif is the silent tanwīn seat (نَارًا), not madd :
     // it surfaces as a madd alif only at waqf (Phase 2 stop model)
     return prevFatha;
   }
@@ -240,7 +240,7 @@ export function isMaddLetter(letters: readonly Letter[], i: number): boolean {
   }
   if (l.base === ALEF_MAKSURA) {
     // ى after kasrah = yāʾ-type madd (فِى). After fatḥah, the alif sound is
-    // always written with a following dagger alif in this encoding (عَلَىٰ) —
+    // always written with a following dagger alif in this encoding (عَلَىٰ) :
     // the dagger is the madd letter and the ى is a silent seat; a bare ى after
     // fatḥah with NO dagger is the līn yāʾ of شَىْء. After tanwīn fatḥ (هُدًى)
     // it is the silent tanwīn seat.
@@ -253,7 +253,7 @@ export function isMaddLetter(letters: readonly Letter[], i: number): boolean {
 
 /**
  * Līn letter: و/ي sākin (explicit sukūn or bare) after fatḥah (tuhfah:41).
- * Excludes the dagger-alif seat (ٱلصَّلَوٰةَ — the wāw there is silent rasm),
+ * Excludes the dagger-alif seat (ٱلصَّلَوٰةَ: the wāw there is silent rasm),
  * i.e. the following letter must not be a dagger alif.
  */
 export function isLinLetter(letters: readonly Letter[], i: number): boolean {

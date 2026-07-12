@@ -1,0 +1,91 @@
+<!-- title: Getting started | nav: start -->
+<section style="padding-bottom: 8px">
+  <p class="label">Getting started</p>
+  <h1>Install, call, read the result.</h1>
+  <p class="lede">Two entry points: the full package with the bundled Qurʾān text, and a
+  corpus-free core for callers that supply their own text.</p>
+</section>
+
+<section id="install">
+  <h2>Install and import</h2>
+  <pre><code>npm install ghunna</code></pre>
+  <pre><code><span class="c">// full package: includes the Tanzil Uthmani text (about 730 KB in the ESM build)</span>
+<span class="k">import</span> { annotateVerse, getVerseText } <span class="k">from</span> "ghunna";
+
+<span class="c">// corpus-free core (about 34 KB): annotate your own text</span>
+<span class="k">import</span> { annotate, tokenize, RULE_META } <span class="k">from</span> "ghunna/core";</code></pre>
+  <p>Both builds are shipped as ESM and CJS with full type declarations. There are no
+  runtime dependencies.</p>
+</section>
+
+<section id="verse">
+  <h2>Annotating a verse</h2>
+  <pre><code><span class="k">const</span> result = annotateVerse(36, 52);
+<span class="c">// result.text         the verse text (Tanzil Uthmani); ranges index into it by codepoint</span>
+<span class="c">// result.annotations  Annotation[]</span>
+<span class="c">// result.riwayah      "hafs-shatibiyyah"</span></code></pre>
+  <p>Each annotation has the shape:</p>
+  <pre><code>{
+  rule: RuleId;                  <span class="c">// e.g. "ikhfa-haqiqi"; 41 identifiers, see the catalog</span>
+  name: { arabic; transliteration; english };
+  range: [start, end];           <span class="c">// codepoint indices into text, end exclusive</span>
+  trigger: { letters; description };
+  derivation: string;            <span class="c">// filled template, English; derivationAr in RULE_META</span>
+  citation: { text: "tuhfah" | "jazariyyah"; lines: number[] };
+  waqfDependent: boolean;
+  appliesIn?: "wasl" | "waqf";   <span class="c">// present in mode "both"</span>
+  confidence: "certain" | "flagged";
+}</code></pre>
+  <p>Ranges are codepoint indices, not UTF-16 units. Iterate the text with
+  <code>[...text]</code> or an equivalent codepoint-aware method before slicing.</p>
+</section>
+
+<section id="modes">
+  <h2>Recitation context</h2>
+  <p>Several rules exist only at a pause, and several die across one. The engine therefore
+  takes the recitation context as options rather than assuming it:</p>
+  <pre><code>annotateVerse(1, 7,   { mode: "stop" });     <span class="c">// waqf at verse end</span>
+annotateVerse(2, 255, { mode: "both" });     <span class="c">// union; per-mode spans carry appliesIn</span>
+annotateVerse(36, 52, { stopAt: 5 });        <span class="c">// stop after word 5, resume at word 6</span>
+annotateVerse(1, 2,   { startFresh: true }); <span class="c">// utterance start: hamzat al-wasl vowel rules</span></code></pre>
+  <p>The default mode is continuation into the following text. The semantics of each mode
+  are specified in <a href="/waqf">the waqf model</a>.</p>
+</section>
+
+<section id="core">
+  <h2>The corpus-free core</h2>
+  <pre><code><span class="k">import</span> { annotate } <span class="k">from</span> "ghunna/core";
+
+annotate("مِن رَّبِّهِمْ");
+<span class="c">// [{ rule: "idgham-bila-ghunnah", range: [...], ... }]</span></code></pre>
+  <p><code>annotate(text, options)</code> accepts the same mode options plus
+  <code>saktAfterWord</code>, the transmitted sakt positions that
+  <code>annotateVerse</code> applies automatically from the riwāyah data.</p>
+</section>
+
+<section id="contract">
+  <h2>Input contract</h2>
+  <ul>
+    <li>Input is vocalized Uthmani Arabic in the Tanzil Uthmani encoding. The bundled
+      corpus is exactly that text, carried intact.</li>
+    <li>Combining-mark order is preserved. Do not NFC-normalize the input; normalization
+      reorders marks and destroys distinctions the tokenizer depends on.</li>
+    <li>Unknown codepoints, marks without a base letter, and empty input throw
+      <code>TokenizeError</code>. Failure is loud by design: this is the Qurʾān, and the
+      engine does not guess silently.</li>
+    <li>Where the sources transmit two admissible readings of a site, the annotation is
+      emitted with <code>confidence: "flagged"</code> rather than silently choosing.</li>
+  </ul>
+</section>
+
+<section id="beyond">
+  <h2>Beyond annotation</h2>
+  <p>The package also exports the building blocks: <code>tokenize</code> (the letter
+  model: letters, words, seats, vowels), <code>RULE_META</code> (the full rule table with
+  names, citations and both derivation templates), <code>describeLetter</code> and
+  <code>LETTER_PROFILES</code> (articulation point and attributes of each letter, cited to
+  al-Jazariyyah's lines), <code>getWaqfMarks</code> (the printed stop marks of the Ḥafṣ
+  muṣḥaf as data), and <code>HAFS_SHATIBIYYAH</code> (the riwāyah parameter set, including
+  the four transmitted sakt sites). The complete surface is in
+  <a href="/api">the API reference</a>.</p>
+</section>

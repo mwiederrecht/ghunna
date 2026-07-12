@@ -10,7 +10,7 @@ import type { RuleId } from "../src/annotation.js";
 function expectRule(text: string, rule: RuleId, over?: string) {
   const anns = annotate(text);
   const hits = anns.filter((a) => a.rule === rule);
-  expect(hits, `${rule} in "${text}" — got ${anns.map((a) => a.rule).join(", ")}`).not.toHaveLength(0);
+  expect(hits, `${rule} in "${text}": got ${anns.map((a) => a.rule).join(", ")}`).not.toHaveLength(0);
   if (over) {
     const cps = [...text];
     const covered = hits.some((a) => cps.slice(a.range[0], a.range[1]).join("").includes(over) ||
@@ -43,7 +43,7 @@ describe("nūn sākinah & tanwīn family (tuhfah:6–16)", () => {
   it("idghām bilā ghunnah: مِن رَّبِّهِمْ", () => {
     expectRule("مِن رَّبِّهِمْ", "idgham-bila-ghunnah");
   });
-  it("iqlāb: مِنۢ بَعْدِ — derived from ن+ب, not from the mīm hint", () => {
+  it("iqlāb: مِنۢ بَعْدِ: derived from ن+ب, not from the mīm hint", () => {
     // the hint mark is stripped here on purpose: derivation must still fire
     expectRule("مِن بَعْدِ", "iqlab");
   });
@@ -104,13 +104,13 @@ describe("lām rules (tuhfah:24–29, jazariyyah:43)", () => {
 });
 
 describe("adjacent-consonant idghām (tuhfah:30–34)", () => {
-  it("mithlayn: اِذْهَب بِّكِتَٰبِى? — use قَد دَّخَلُوا۟ pattern", () => {
+  it("mithlayn: اِذْهَب بِّكِتَٰبِى?: use قَد دَّخَلُوا۟ pattern", () => {
     expectRule("قَد دَّخَلُوا۟", "idgham-mithlayn");
   });
   it("mutajānisayn: قَد تَّبَيَّنَ (د→ت)", () => {
     expectRule("قَد تَّبَيَّنَ", "idgham-mutajanisayn");
   });
-  it("mutajānisayn nāqiṣ: بَسَطتَ (ط→ت) — RESIDUE R-001", () => {
+  it("mutajānisayn nāqiṣ: بَسَطتَ (ط→ت): RESIDUE R-001", () => {
     expectRule("بَسَطتَ", "idgham-mutajanisayn");
   });
   it("mutaqāribayn: قُل رَّبِّ (ل→ر)", () => {

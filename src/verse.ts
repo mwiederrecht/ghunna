@@ -1,7 +1,7 @@
 /**
  * Verse-level API: ask for a verse, get its tajweed rules.
  *
- * Bundles the canonical corpus (Tanzil Uthmani — see corpus-data.ts header for
+ * Bundles the canonical corpus (Tanzil Uthmani: see corpus-data.ts header for
  * attribution) and the Ḥafṣ/Shāṭibiyyah riwāyah data (sakt sites), so
  * `annotateVerse(2, 255)` needs no configuration.
  */
@@ -55,7 +55,7 @@ export function getVerseText(surah: number, ayah: number): string {
 
 /**
  * Annotate one verse of the Qur'an (Ḥafṣ ʿan ʿĀṣim, ṭarīq al-Shāṭibiyyah).
- * Continuation (waṣl) mode — waqf modes arrive with the Phase 2 stop model.
+ * Continuation (waṣl) mode: waqf modes arrive with the Phase 2 stop model.
  */
 export function annotateVerse(
   surah: number,

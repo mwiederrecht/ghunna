@@ -1,0 +1,290 @@
+<!-- title: API reference | nav: api -->
+<section style="padding-bottom: 8px">
+  <p class="label">API reference</p>
+  <h1>The interface, verbatim.</h1>
+  <p class="lede">The two blocks below are the declaration files the npm package ships,
+  reproduced without editing. The reference cannot drift from the code because it is the
+  code's own type declaration.</p>
+  <p>For a guided introduction, read <a href="/start">getting started</a>. For the meaning
+  of each rule identifier, see <a href="/rules">the rule catalog</a>.</p>
+</section>
+<section id="entry-full">
+  <h2>The full entry: <code>ghunna</code></h2>
+  <p>Includes the bundled Qurʾān text (Tanzil Uthmani, carried intact). Adds
+  <code>annotateVerse</code> and <code>getVerseText</code> on top of everything in the
+  core entry.</p>
+  <pre><code>import { RiwayahParams, Annotation } from './core.js';
+export { AnnotateOptions, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, Letter, LetterProfile, MakhrajInfo, RULE_META, RuleId, RuleMeta, RuleName, SaktSite, SifaInfo, SourceRef, Tanwin, TokenizeError, TokenizedVerse, Vowel, Word, annotate, annotateTokens, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize } from './core.js';
+
+/**
+ * Verse-level API: ask for a verse, get its tajweed rules.
+ *
+ * Bundles the canonical corpus (Tanzil Uthmani: see corpus-data.ts header for
+ * attribution) and the Ḥafṣ/Shāṭibiyyah riwāyah data (sakt sites), so
+ * `annotateVerse(2, 255)` needs no configuration.
+ */
+
+interface VerseAnnotationResult {
+    surah: number;
+    ayah: number;
+    /** The verse text the ranges index into (codepoints). */
+    text: string;
+    annotations: Annotation[];
+    riwayah: string;
+}
+interface AnnotateVerseOptions {
+    riwayah?: RiwayahParams;
+    /** "continue" (default): flow into the next verse. "stop": waqf at verse
+     *  end. "both": union with appliesIn labels. */
+    mode?: "continue" | "stop" | "both";
+    /** Stop after this word index (recitation-tutor use). */
+    stopAt?: number;
+    /** Treat the verse start as an utterance start (fresh recitation). */
+    startFresh?: boolean;
+}
+/** Number of ayat per surah (1-indexed surah). */
+declare function getVerseText(surah: number, ayah: number): string;
+/**
+ * Annotate one verse of the Qur'an (Ḥafṣ ʿan ʿĀṣim, ṭarīq al-Shāṭibiyyah).
+ * Continuation (waṣl) mode: waqf modes arrive with the Phase 2 stop model.
+ */
+declare function annotateVerse(surah: number, ayah: number, opts?: AnnotateVerseOptions): VerseAnnotationResult;
+
+type WaqfMarkKind = "lazim" | "preferred-stop" | "permitted" | "preferred-continue" | "forbidden" | "muanaqah" | "sakt" | "sajdah";
+interface WaqfMark {
+    /** The mark occurs after this word index (0-based) of the verse. */
+    afterWord: number;
+    mark: string;
+    kind: WaqfMarkKind;
+    description: string;
+}
+/** The waqf/sajdah marks of a verse (empty array if none). */
+declare function getWaqfMarks(surah: number, ayah: number): WaqfMark[];
+
+export { type AnnotateVerseOptions, Annotation, RiwayahParams, type VerseAnnotationResult, type WaqfMark, type WaqfMarkKind, annotateVerse, getVerseText, getWaqfMarks };</code></pre>
+</section>
+<section id="entry-core">
+  <h2>The corpus-free entry: <code>ghunna/core</code></h2>
+  <p>The engine, tokenizer, rule table, letter profiles and riwāyah parameters, without
+  the embedded text. Use <code>annotate(text)</code> with your own Tanzil-Uthmani-encoded
+  input.</p>
+  <pre><code>/** Public annotation types (API sketch in README / project brief). */
+type RuleId = "izhar-halqi" | "idgham-bighunnah" | "izhar-mutlaq" | "idgham-bila-ghunnah" | "iqlab" | "ikhfa-haqiqi" | "ghunnah-mushaddadah" | "ikhfa-shafawi" | "idgham-shafawi" | "izhar-shafawi" | "lam-qamariyyah" | "lam-shamsiyyah" | "lam-jalalah-tafkhim" | "lam-jalalah-tarqiq" | "tafkhim-istila" | "ra-tafkhim" | "ra-tarqiq" | "ra-takrir" | "bayan-dad-zha" | "rawm" | "ishmam" | "waqf-ta-maftuha" | "idgham-mithlayn" | "idgham-mutajanisayn" | "idgham-mutaqaribayn" | "qalqalah-sughra" | "qalqalah-kubra" | "madd-tabii" | "madd-badal" | "madd-muttasil" | "madd-munfasil" | "madd-arid-lissukun" | "madd-lin" | "madd-lazim-kalimi-muthaqqal" | "madd-lazim-kalimi-mukhaffaf" | "madd-lazim-harfi-muthaqqal" | "madd-lazim-harfi-mukhaffaf" | "madd-iwad" | "hamzat-wasl" | "silent" | "sakt";
+interface SourceRef {
+    /** Which classical text: citation targets in docs/sources/. */
+    text: "tuhfah" | "jazariyyah";
+    /** Line number(s) in the numbered source file. */
+    lines: number[];
+}
+interface RuleName {
+    arabic: string;
+    transliteration: string;
+    english: string;
+}
+interface Annotation {
+    rule: RuleId;
+    /** Canonical rule name: Arabic, transliteration, English. */
+    name: RuleName;
+    /** Codepoint range [start, end) into the annotated verse text. */
+    range: [start: number, end: number];
+    trigger: {
+        /** The exact triggering characters, as written. */
+        letters: string;
+        description: string;
+    };
+    /** Human-readable why: "nūn sākinah followed by ب → iqlāb". */
+    derivation: string;
+    citation: SourceRef;
+    waqfDependent: boolean;
+    confidence: "certain" | "flagged";
+    /** In 'both' mode: which recitation mode this annotation belongs to.
+     *  Absent = applies in both waṣl and waqf. */
+    appliesIn?: "wasl" | "waqf";
+}
+
+type Vowel = "fatha" | "damma" | "kasra";
+type Tanwin = "fath" | "damm" | "kasr";
+interface Letter {
+    /** Phoneme-identity codepoint. Tatweel-seated hamza → U+0621; small high
+     *  yāʾ/nūn → U+06E6 (ṣila yāʾ) / U+0646 (nūn). */
+    base: number;
+    /** Codepoint range [start, end) in the verse text, covering the base, its
+     *  carrier if any, and all combining marks. */
+    start: number;
+    end: number;
+    vowel: Vowel | null;
+    tanwin: Tanwin | null;
+    shadda: boolean;
+    /** Explicit sukūn sign. Use isSakin() for the phonological question. */
+    sukun: boolean;
+    silent: "always" | "wasl" | null;
+    /** Ortho-class marks present (SPEC §0): rule-readable. */
+    ortho: number[];
+    /** Hint-class marks present: recorded for span fidelity and debugging;
+     *  rule data must never reference these (enforced by test). */
+    hints: number[];
+}
+interface Word {
+    letters: Letter[];
+    start: number;
+    end: number;
+    index: number;
+}
+interface TokenizedVerse {
+    words: Word[];
+    /** Standalone signs encountered (waqf marks / spaced sakt in the marked
+     *  text variant), attached by preceding word index. */
+    signs: Array&lt;{
+        cp: number;
+        afterWord: number;
+        at: number;
+    }&gt;;
+    text: string;
+}
+declare class TokenizeError extends Error {
+    readonly at: number;
+    constructor(message: string, at: number);
+}
+/** Sākin = explicitly sukūned, or bare of any vocalization (positional sukūn).
+ *  Madd letters are also bare: callers distinguish via vowel agreement. */
+declare function isSakin(l: Letter): boolean;
+declare function tokenize(text: string): TokenizedVerse;
+/**
+ * Is letters[i] a madd letter? Presence of the glyph alone is insufficient:
+ * requires vowel agreement with the governing preceding letter (SPEC §7).
+ */
+declare function isMaddLetter(letters: readonly Letter[], i: number): boolean;
+/**
+ * Līn letter: و/ي sākin (explicit sukūn or bare) after fatḥah (tuhfah:41).
+ * Excludes the dagger-alif seat (ٱلصَّلَوٰةَ: the wāw there is silent rasm),
+ * i.e. the following letter must not be a dagger alif.
+ */
+declare function isLinLetter(letters: readonly Letter[], i: number): boolean;
+
+/**
+ * The rule interpreter: tokenized verse → Annotation[].
+ *
+ * Continuation (waṣl) mode. Every derivation reads only permitted signs
+ * (SPEC §0): letter identities, ḥarakāt, shaddah, sukūn (explicit or
+ * positional), tanwīn, silence marks, and word boundaries. Hint marks
+ * (iqlāb mīm, maddah) are never consulted.
+ *
+ * Rule *metadata* (names, citations, derivation text) lives in rules/meta.ts;
+ * letter classes live in chars.ts; this module is the pattern logic.
+ */
+
+interface AnnotateOptions {
+    /** Word indices after which a transmitted sakt occurs (riwāyah data). */
+    saktAfterWord?: readonly number[];
+    /**
+     * Recitation mode:
+     *  - "continue" (default): the text flows into what follows: no stop at end
+     *  - "stop": the reciter stops at the end of the text (waqf rules at the
+     *    final word: madd ʿāriḍ, madd līn, qalqalah kubrā, madd ʿiwaḍ, …)
+     *  - "both": union of both runs; annotations exclusive to one mode carry
+     *    `appliesIn: "wasl" | "waqf"`.
+     */
+    mode?: "continue" | "stop" | "both";
+    /** Stop after this word index (recitation-tutor use): waqf rules at that
+     *  word, resumption (start) rules at the next. */
+    stopAt?: number;
+    /** Treat the beginning of the text as an utterance start (hamzat al-waṣl is
+     *  pronounced, an initial shaddah from cross-verse idghām is dropped). */
+    startFresh?: boolean;
+}
+declare class DerivationError extends Error {
+    constructor(message: string);
+}
+declare function annotateTokens(verse: TokenizedVerse, opts?: AnnotateOptions): Annotation[];
+declare function annotate(text: string, opts?: AnnotateOptions): Annotation[];
+
+/**
+ * Rule metadata: canonical names (Arabic / transliteration / English),
+ * classical citations, waqf-dependence, and derivation templates.
+ *
+ * Kept in sync with docs/SPEC.md (test-enforced: every RuleId appears in the
+ * spec; citations match). `{t}` in a derivation template is replaced with the
+ * trigger letters, `{n}` with the following letter, at annotation time.
+ */
+
+interface RuleMeta {
+    name: RuleName;
+    citation: SourceRef;
+    waqfDependent: boolean;
+    derivation: string;
+    derivationAr: string;
+}
+declare const RULE_META: Record&lt;RuleId, RuleMeta&gt;;
+
+/**
+ * Riwāyah/ṭarīq parameter sets. Ḥafṣ ʿan ʿĀṣim via al-Shāṭibiyyah is the
+ * shipped default (ASSUMPTIONS A-001). Nothing riwāyah-specific may live in
+ * engine logic: only here.
+ */
+interface SaktSite {
+    surah: number;
+    ayah: number;
+    /** sakt occurs after this word index (0-based) of the verse. */
+    afterWord: number;
+}
+/** The four transmitted sakt sites of Ḥafṣ/Shāṭibiyyah (ASSUMPTIONS A-006). */
+declare const HAFS_SAKT_SITES: readonly SaktSite[];
+interface RiwayahParams {
+    id: string;
+    name: {
+        arabic: string;
+        english: string;
+    };
+    /** madd lengths in counts (ḥarakāt) */
+    maddMunfasil: number;
+    maddMuttasil: number;
+    maddLazim: number;
+    saktSites: readonly SaktSite[];
+}
+declare const HAFS_SHATIBIYYAH: RiwayahParams;
+
+/**
+ * Letter profiles: articulation point (makhraj) and intrinsic properties
+ * (ṣifāt) of every Arabic letter, transcribed from al-Muqaddimah
+ * al-Jazariyyah: makhārij: lines 9–18; ṣifāt: lines 19–25.
+ *
+ * Pure data. `describeLetter("ص")` returns everything the classical text
+ * says about the letter, each item carrying its line citation.
+ */
+
+interface SifaInfo {
+    id: string;
+    arabic: string;
+    transliteration: string;
+    english: string;
+    citation: SourceRef;
+}
+interface MakhrajInfo {
+    arabic: string;
+    english: string;
+    citation: SourceRef;
+}
+interface LetterProfile {
+    letter: string;
+    name: {
+        arabic: string;
+        transliteration: string;
+    };
+    makhraj: MakhrajInfo;
+    sifat: SifaInfo[];
+}
+/** Base ṣifāt per letter, derived from the mnemonics:
+ *  hams فحثه شخص سكت · shiddah أجد قط بكت · bayniyyah لن عمر ·
+ *  istiʿlāʾ خص ضغط قظ · iṭbāq ص ض ط ظ · idhlāq فر من لب · ṣafīr ص ز س ·
+ *  qalqalah قطب جد · līn و ي · inḥirāf ل ر · takrīr ر · tafashshī ش ·
+ *  istiṭālah ض (jazariyyah:20–25). */
+declare const LETTER_PROFILES: ReadonlyMap&lt;string, LetterProfile&gt;;
+/**
+ * The classical profile of a letter (makhraj + ṣifāt, jazariyyah:9–25).
+ * Hamzah seats, tāʾ marbūṭah, and small/dagger forms resolve to their
+ * phonetic letter. Throws on non-Arabic input (fail loudly).
+ */
+declare function describeLetter(char: string): LetterProfile;
+
+export { type AnnotateOptions, type Annotation, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, type Letter, type LetterProfile, type MakhrajInfo, RULE_META, type RiwayahParams, type RuleId, type RuleMeta, type RuleName, type SaktSite, type SifaInfo, type SourceRef, type Tanwin, TokenizeError, type TokenizedVerse, type Vowel, type Word, annotate, annotateTokens, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize };</code></pre>
+</section>

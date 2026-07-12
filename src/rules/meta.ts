@@ -140,14 +140,14 @@ export const RULE_META: Record<RuleId, RuleMeta> = {
     name: { arabic: "إخفاء تكرير الراء المشددة", transliteration: "ikhfāʾ takrīr al-rāʾ", english: "suppress the trill of doubled rāʾ" },
     citation: { text: "jazariyyah", lines: [42] },
     waqfDependent: false,
-    derivation: "doubled rāʾ {t}: conceal the letter's natural trill (takrīr) — one contact of the tongue, not a roll",
-    derivationAr: "راء مشدَّدة {t}: يُخفى التكرير — ضربة واحدة للسان لا رعشة",
+    derivation: "doubled rāʾ {t}: conceal the letter's natural trill (takrīr): one contact of the tongue, not a roll",
+    derivationAr: "راء مشدَّدة {t}: يُخفى التكرير: ضربة واحدة للسان لا رعشة",
   },
   "bayan-dad-zha": {
     name: { arabic: "بيان الضاد والظاء عند التلاقي", transliteration: "bayān al-ḍād wa-l-ẓāʾ", english: "obligatory distinction of ḍād and ẓāʾ in contact" },
     citation: { text: "jazariyyah", lines: [59] },
     waqfDependent: false,
-    derivation: "ض and ظ meet at {t} — pronounce each distinctly; merging them is prohibited (البيان لازم)",
+    derivation: "ض and ظ meet at {t}: pronounce each distinctly; merging them is prohibited (البيان لازم)",
     derivationAr: "التقاء الضاد والظاء في {t} ← يجب بيان كلٍّ منهما؛ وإدغامهما ممنوع",
   },
   rawm: {
@@ -168,7 +168,7 @@ export const RULE_META: Record<RuleId, RuleMeta> = {
     name: { arabic: "الوقف على التاء المرسومة مفتوحة", transliteration: "al-tāʾ al-maftūḥah", english: "stop with tāʾ (open-tāʾ rasm)" },
     citation: { text: "jazariyyah", lines: [93, 94, 95, 96, 97, 98, 99] },
     waqfDependent: true,
-    derivation: "this feminine tāʾ is written open in the rasm ({t}) — stopping here keeps the tāʾ sound (not hāʾ)",
+    derivation: "this feminine tāʾ is written open in the rasm ({t}): stopping here keeps the tāʾ sound (not hāʾ)",
     derivationAr: "هذه التاء مرسومة مفتوحة ({t}) ← الوقف عليها بالتاء لا بالهاء",
   },
   "idgham-mithlayn": {
@@ -287,8 +287,8 @@ export const RULE_META: Record<RuleId, RuleMeta> = {
     name: { arabic: "همزة الوصل", transliteration: "hamzat al-waṣl", english: "connective hamzah" },
     citation: { text: "jazariyyah", lines: [100, 101, 102] },
     waqfDependent: false,
-    derivation: "connective hamzah ٱ — written but silent in connected recitation",
-    derivationAr: "همزة وصل ٱ — تُكتب ولا تُنطق في وصل الكلام",
+    derivation: "connective hamzah ٱ: written but silent in connected recitation",
+    derivationAr: "همزة وصل ٱ: تُكتب ولا تُنطق في وصل الكلام",
   },
   silent: {
     name: { arabic: "حرف لا يُنطق", transliteration: "ḥarf ṣāmit", english: "orthographically silent letter" },
@@ -301,7 +301,7 @@ export const RULE_META: Record<RuleId, RuleMeta> = {
     name: { arabic: "السكت", transliteration: "sakt", english: "breathless pause" },
     citation: { text: "jazariyyah", lines: [72] },
     waqfDependent: false,
-    derivation: "transmitted sakt site of Ḥafṣ — a brief breathless pause; blocks assimilation across it",
-    derivationAr: "موضع سكت منقول عن حفص — وقفة لطيفة بلا تنفس؛ تمنع الإدغام عبرها",
+    derivation: "transmitted sakt site of Ḥafṣ: a brief breathless pause; blocks assimilation across it",
+    derivationAr: "موضع سكت منقول عن حفص: وقفة لطيفة بلا تنفس؛ تمنع الإدغام عبرها",
   },
 };

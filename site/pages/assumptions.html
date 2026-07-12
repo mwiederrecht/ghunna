@@ -1,0 +1,47 @@
+<!-- title: Assumptions | nav: assumptions -->
+<section style="padding-bottom: 8px">
+  <p class="label">Assumptions</p>
+  <h1>Adopted policies, on the record.</h1>
+  <p class="lede">Every open question the library answered by adopting a policy is
+  logged, with the diff signature that would expose the policy if it is wrong.</p>
+  <p>The discipline: an assumption is removed only when resolved with evidence, and a
+  genuinely scholarly ambiguity graduates to <a href="/residue">the residue</a> instead
+  of being silently decided. The canonical, current record is
+  <a href="https://github.com/mwiederrecht/ghunna/blob/main/ASSUMPTIONS.md">ASSUMPTIONS.md</a>
+  in the repository. The load-bearing entries:</p>
+</section>
+
+<section id="entries">
+  <h2>The standing assumptions</h2>
+  <h3>A-001: the ṭarīq is al-Shāṭibiyyah</h3>
+  <p>Madd muttaṣil and munfaṣil at four counts and the rest of the Shāṭibiyyah
+  parameter set. If the reference muṣḥaf followed a different ṭarīq convention, it
+  would surface as systematic madd-length differences; none were observed.</p>
+  <h3>A-002: the canonical text is Tanzil Uthmani, current snapshot</h3>
+  <p>The reference dataset's indices are pinned to a 2017 Tanzil snapshot that differs
+  slightly from the current one; an explicit per-verse index-mapping layer bridges
+  them. Any mapping error would appear as spurious index-shifted diffs, which
+  distinguishes it from a rule error.</p>
+  <h3>A-004: package publication is user-gated</h3>
+  <p>Publication to npm requires the author's credentials and review; the library does
+  not self-publish.</p>
+  <h3>A-006: sakt is riwāyah data</h3>
+  <p>The four Ḥafṣ sakt sites are carried as transmitted data and applied by
+  <code>annotateVerse</code>; they are not derivable from orthography and no derivation
+  is pretended.</p>
+  <h3>Flagged sites rather than silent choices</h3>
+  <p>Where the transmission records two admissible ways (the ʿayn of the fawātiḥ at
+  four or six counts; the rāʾ of فِرْقٍ and the stop on مِصْرَ and similar khilāf
+  sites), the annotation is emitted with <code>confidence: "flagged"</code> and both
+  ways are noted in the metadata.</p>
+</section>
+
+<section id="resolved">
+  <h2>Resolved entries</h2>
+  <p>Entries are closed only with evidence, and the closure is recorded. Two examples:
+  the former A-008 (a policy for a madd before a sākin hamzah) became unnecessary when
+  the 2:72 letter-model defect was found and fixed
+  (<a href="/residue#r-006">R-006</a>); and the basmalah-prefix scope question was
+  closed as a harness classification rather than a rule difference, as described in
+  <a href="/verification">the method</a>.</p>
+</section>
