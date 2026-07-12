@@ -3,7 +3,8 @@
  * (tuhfah/jazariyyah cite most of these words themselves).
  */
 import { describe, expect, it } from "vitest";
-import { annotate } from "../src/engine.js";
+import { annotate, annotationsAt } from "../src/engine.js";
+import { getVerseText } from "../src/verse.js";
 import type { RuleId } from "../src/annotation.js";
 
 /** assert that annotating `text` yields `rule` with the trigger substring covering `over` */
@@ -233,5 +234,22 @@ describe("tafkhim & tarqiq (jazariyyah:21, 40-42)", () => {
     const hit = annotate("مِصْرَ", { mode: "stop" }).find((a) => a.rule.startsWith("ra-"));
     expect(hit?.rule).toBe("ra-tafkhim");
     expect(hit?.confidence).toBe("flagged");
+  });
+});
+
+describe("annotationsAt", () => {
+  it("returns every span covering a letter (36:52, the doubled ra of al-Rahman)", () => {
+    const text = getVerseText(36, 52);
+    const anns = annotate(text);
+    const cps = [...text];
+    const i = cps.findIndex((c, n) => c === "ر" && cps[n - 1] === "ل");
+    const rules = annotationsAt(anns, i).map((a) => a.rule).sort();
+    expect(rules).toContain("ra-tafkhim");
+    expect(rules).toContain("ra-takrir");
+    expect(rules).toContain("lam-shamsiyyah");
+  });
+  it("returns empty for an unannotated letter", () => {
+    const anns = annotate("وَعَدَ");
+    expect(annotationsAt(anns, 0)).toEqual([]);
   });
 });

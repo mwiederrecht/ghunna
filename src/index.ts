@@ -7,7 +7,7 @@
  */
 export { annotateVerse, getVerseText } from "./verse.js";
 export type { AnnotateVerseOptions, VerseAnnotationResult } from "./verse.js";
-export { annotate, annotateTokens, DerivationError } from "./engine.js";
+export { annotate, annotateTokens, annotationsAt, DerivationError } from "./engine.js";
 export type { AnnotateOptions } from "./engine.js";
 export { tokenize, TokenizeError, isMaddLetter, isLinLetter, isSakin } from "./tokenizer.js";
 export type { Letter, Word, TokenizedVerse, Vowel, Tanwin } from "./tokenizer.js";

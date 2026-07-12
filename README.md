@@ -2,6 +2,8 @@
 
 Ghunna (غُنّة) is the nasal resonance central to tajweed; the library is named for it.
 
+Documentation: [ghunna.com](https://ghunna.com)
+
 Ask for a verse, get its tajweed rules: **derived, not looked up**.
 
 ```ts

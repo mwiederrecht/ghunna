@@ -133,10 +133,20 @@ function ruleCard(id: RuleId): string {
 `;
   for (const key of ["tuhfah", "jazariyyah"] as const) {
     const m = meta[key];
+    // one box per poem; the two hemistichs of each line aligned in columns,
+    // as the poem is written on the page
+    const rows = [...POEMS[key].lines.entries()].map(([n, t]) => {
+      const [a, b] = t.split(" ۞ ");
+      return b !== undefined
+        ? `<span class="h">${esc(a)}</span><span class="h">${esc(b)}</span><span class="ln">${n}</span>`
+        : `<span class="h wide">${esc(a)}</span><span class="ln">${n}</span>`;
+    }).join("\n    ");
     body += `<section id="${key}">
   <h2>${m.heading}</h2>
   <p>${m.about}</p>
-  ${[...POEMS[key].lines.entries()].map(([n, t]) => `<div class="couplet">${esc(t)} <span class="ln">${n}</span></div>`).join("\n  ")}
+  <div class="scroller"><div class="poem">
+    ${rows}
+  </div></div>
 </section>\n`;
   }
   writeFileSync(join(PAGES, "sources.html"), body);

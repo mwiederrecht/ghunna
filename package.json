@@ -31,7 +31,8 @@
     "typecheck": "tsc --noEmit",
     "prebuild": "tsx tools/gen-corpus-module.ts",
     "site": "tsx tools/build-site.mts",
-    "deploy:site": "tsx tools/deploy-site.mts"
+    "deploy:site": "tsx tools/deploy-site.mts",
+    "prepublishOnly": "npm run build && npm test"
   },
   "devDependencies": {
     "@types/node": "^26.1.1",
@@ -52,7 +53,7 @@
     "type": "git",
     "url": "git+https://github.com/mwiederrecht/ghunna.git"
   },
-  "homepage": "https://github.com/mwiederrecht/ghunna#readme",
+  "homepage": "https://ghunna.com",
   "bugs": {
     "url": "https://github.com/mwiederrecht/ghunna/issues"
   }

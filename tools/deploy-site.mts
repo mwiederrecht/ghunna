@@ -1,22 +1,22 @@
 /**
- * Build and deploy the documentation site to ghunna.melissawiederrecht.com.
+ * Build and deploy the documentation site to ghunna.com.
  *
  *   npx tsx tools/deploy-site.mts               build + gate + deploy + verify
  *   npx tsx tools/deploy-site.mts --build-only  build + gate, no deploy
  *
  * Cloudflare Pages project: ghunna. First run creates the project, attaches
  * the custom domain, and writes the CNAME in the melissawiederrecht.com zone.
- * Token: C:/Development/.cf_token_melissawiederrecht.com.txt
+ * Token: C:/Development/.cf_token_big_useful.txt (account-wide)
  */
 import { execSync } from "node:child_process";
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-const TOKEN_PATH = "C:/Development/.cf_token_melissawiederrecht.com.txt";
+const TOKEN_PATH = "C:/Development/.cf_token_big_useful.txt";
 const ACCOUNT = "23c4ed86016680e63c6c038a14a9806b";
 const PROJECT = "ghunna";
-const DOMAIN = "ghunna.melissawiederrecht.com";
-const ZONE_NAME = "melissawiederrecht.com";
+const DOMAIN = "ghunna.com";
+const ZONE_NAME = "ghunna.com";
 const BASE = `https://${DOMAIN}`;
 
 execSync("npx tsx tools/build-site.mts", { stdio: "inherit" });
@@ -93,10 +93,13 @@ execSync(`npx wrangler pages deploy site/public --project-name ${PROJECT} --bran
   if (!recs.result?.length) {
     const rec = await api(`/zones/${zone}/dns_records`, {
       method: "POST",
-      body: JSON.stringify({ type: "CNAME", name: "ghunna", content: `${PROJECT}.pages.dev`, proxied: true }),
+      body: JSON.stringify({ type: "CNAME", name: "@", content: `${PROJECT}.pages.dev`, proxied: true }),
     });
-    if (!rec.success) throw new Error(`CNAME create failed: ${JSON.stringify(rec.errors)}`);
-    console.log("CNAME created");
+    // 81062: the Pages domain attach already manages DNS for this host
+    if (!rec.success && !rec.errors?.some((e) => e.code === 81062)) {
+      throw new Error(`CNAME create failed: ${JSON.stringify(rec.errors)}`);
+    }
+    console.log(rec.success ? "CNAME created" : "DNS already managed by the Pages domain");
   }
 }
 

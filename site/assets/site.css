@@ -104,6 +104,17 @@ p.ar, .verse { font-size: 1.35em; line-height: 2; max-width: var(--measure); }
 .couplet .ln { font: 500 11px/1 var(--mono); color: var(--acc); direction: ltr;
   unicode-bidi: isolate; margin-left: 10px; font-variant-numeric: tabular-nums; }
 
+/* a whole poem: hemistich columns, line numbers in the margin */
+.poem { direction: rtl; font-family: var(--arabic); font-size: 1.5em; line-height: 2.25;
+  background: var(--sunk); border: 1px solid var(--hair); border-radius: 3px;
+  padding: 26px 34px; margin: 0 0 1.05em; width: fit-content; max-width: 100%;
+  display: grid; grid-template-columns: max-content max-content auto;
+  column-gap: 2.6em; align-items: baseline; }
+.poem .h { white-space: nowrap; }
+.poem .h.wide { grid-column: 1 / 3; }
+.poem .ln { font: 500 11px/1 var(--mono); color: var(--acc); direction: ltr;
+  unicode-bidi: isolate; align-self: center; font-variant-numeric: tabular-nums; }
+
 /* tables */
 .canon { width: 100%; border-collapse: collapse; font-size: 15px; }
 .canon th, .canon td { text-align: left; padding: 11px 16px 11px 0;

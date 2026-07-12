@@ -14,7 +14,7 @@
   <code>annotateVerse</code> and <code>getVerseText</code> on top of everything in the
   core entry.</p>
   <pre><code>import { RiwayahParams, Annotation } from './core.js';
-export { AnnotateOptions, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, Letter, LetterProfile, MakhrajInfo, RULE_META, RuleId, RuleMeta, RuleName, SaktSite, SifaInfo, SourceRef, Tanwin, TokenizeError, TokenizedVerse, Vowel, Word, annotate, annotateTokens, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize } from './core.js';
+export { AnnotateOptions, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, Letter, LetterProfile, MakhrajInfo, RULE_META, RuleId, RuleMeta, RuleName, SaktSite, SifaInfo, SourceRef, Tanwin, TokenizeError, TokenizedVerse, Vowel, Word, annotate, annotateTokens, annotationsAt, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize } from './core.js';
 
 /**
  * Verse-level API: ask for a verse, get its tajweed rules.
@@ -197,6 +197,14 @@ declare class DerivationError extends Error {
 }
 declare function annotateTokens(verse: TokenizedVerse, opts?: AnnotateOptions): Annotation[];
 declare function annotate(text: string, opts?: AnnotateOptions): Annotation[];
+/**
+ * The annotations covering one letter: every span whose codepoint range
+ * contains `index` (an index into the codepoints of the annotated text).
+ * The per-letter view of a verse is this filter applied at each letter's
+ * position; spans overlap freely (a doubled ra' inside the definite article
+ * can carry three rules at once), so the result is an array.
+ */
+declare function annotationsAt(annotations: readonly Annotation[], index: number): Annotation[];
 
 /**
  * Rule metadata: canonical names (Arabic / transliteration / English),
@@ -286,5 +294,5 @@ declare const LETTER_PROFILES: ReadonlyMap&lt;string, LetterProfile&gt;;
  */
 declare function describeLetter(char: string): LetterProfile;
 
-export { type AnnotateOptions, type Annotation, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, type Letter, type LetterProfile, type MakhrajInfo, RULE_META, type RiwayahParams, type RuleId, type RuleMeta, type RuleName, type SaktSite, type SifaInfo, type SourceRef, type Tanwin, TokenizeError, type TokenizedVerse, type Vowel, type Word, annotate, annotateTokens, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize };</code></pre>
+export { type AnnotateOptions, type Annotation, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, type Letter, type LetterProfile, type MakhrajInfo, RULE_META, type RiwayahParams, type RuleId, type RuleMeta, type RuleName, type SaktSite, type SifaInfo, type SourceRef, type Tanwin, TokenizeError, type TokenizedVerse, type Vowel, type Word, annotate, annotateTokens, annotationsAt, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize };</code></pre>
 </section>

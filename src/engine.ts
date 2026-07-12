@@ -915,3 +915,14 @@ function emitTabiiOrBadal(
 export function annotate(text: string, opts: AnnotateOptions = {}): Annotation[] {
   return annotateTokens(tokenize(text), opts);
 }
+
+/**
+ * The annotations covering one letter: every span whose codepoint range
+ * contains `index` (an index into the codepoints of the annotated text).
+ * The per-letter view of a verse is this filter applied at each letter's
+ * position; spans overlap freely (a doubled ra' inside the definite article
+ * can carry three rules at once), so the result is an array.
+ */
+export function annotationsAt(annotations: readonly Annotation[], index: number): Annotation[] {
+  return annotations.filter((a) => a.range[0] <= index && index < a.range[1]);
+}

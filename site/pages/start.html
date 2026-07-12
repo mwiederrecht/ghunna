@@ -40,6 +40,52 @@
   <code>[...text]</code> or an equivalent codepoint-aware method before slicing.</p>
 </section>
 
+<section id="whole-verse">
+  <h2>What a whole verse looks like</h2>
+  <p>The result is one string plus a flat list of spans, not letter-by-letter output.
+  For surah 36 (Yā-Sīn), verse 52:</p>
+  <p class="ar verse">قَالُوا۟ يَٰوَيْلَنَا مَنۢ بَعَثَنَا مِن مَّرْقَدِنَا هَٰذَا مَا وَعَدَ ٱلرَّحْمَٰنُ وَصَدَقَ ٱلْمُرْسَلُونَ</p>
+  <p>The verse is 108 codepoints; the call returns 26 annotations. A selection, with the
+  text each range slices out:</p>
+  <div class="scroller"><table class="canon">
+    <tr><th>rule</th><th>range</th><th>span text</th></tr>
+    <tr><td class="mono">tafkhim-istila</td><td class="mono">[0, 2]</td><td class="ar">قَ</td></tr>
+    <tr><td class="mono">silent</td><td class="mono">[6, 8]</td><td class="ar">ا۟</td></tr>
+    <tr><td class="mono">iqlab</td><td class="mono">[24, 29]</td><td class="ar">نۢ بَ</td></tr>
+    <tr><td class="mono">idgham-bighunnah</td><td class="mono">[39, 44]</td><td class="ar">ن مَّ</td></tr>
+    <tr><td class="mono">hamzat-wasl</td><td class="mono">[72, 73]</td><td class="ar">ٱ</td></tr>
+    <tr><td class="mono">lam-shamsiyyah</td><td class="mono">[73, 77]</td><td class="ar">لرَّ</td></tr>
+    <tr><td class="mono">ra-takrir</td><td class="mono">[74, 77]</td><td class="ar">رَّ</td></tr>
+    <tr><td class="mono">ra-tafkhim</td><td class="mono">[74, 77]</td><td class="ar">رَّ</td></tr>
+    <tr><td class="mono">madd-tabii</td><td class="mono">[81, 82]</td><td class="ar">ٰ</td></tr>
+  </table></div>
+  <p style="margin-top:1.2em">Three observations. A span covers the letter together with
+  its diacritics, and where a rule involves a following letter (iqlāb, idghām) the span
+  covers both. Spans overlap freely: the doubled rāʾ of ٱلرَّحْمَٰنُ sits inside three
+  annotations at once, the article's assimilation, the heavy rāʾ, and the concealed
+  trill. And letters with no annotation are simply clear; the engine emits spans only
+  where a rule applies.</p>
+</section>
+
+<section id="per-letter">
+  <h2>The per-letter view</h2>
+  <p>To ask what applies to one letter, filter the spans by position.
+  <code>annotationsAt</code> does exactly that:</p>
+  <pre><code><span class="k">import</span> { annotateVerse, annotationsAt } <span class="k">from</span> "ghunna";
+
+<span class="k">const</span> { text, annotations } = annotateVerse(36, 52);
+<span class="k">const</span> cps = [...text];               <span class="c">// codepoints, not UTF-16 units</span>
+
+annotationsAt(annotations, 74);       <span class="c">// the ra of al-Rahman:</span>
+<span class="c">// [lam-shamsiyyah, ra-takrir, ra-tafkhim]</span>
+
+<span class="c">// a full letter-by-letter breakdown:</span>
+cps.map((ch, i) =&gt; ({ ch, rules: annotationsAt(annotations, i).map((a) =&gt; a.rule) }));</code></pre>
+  <p>Slice ranges with <code>[...text].slice(start, end)</code>, never
+  <code>text.slice()</code>: the ranges are codepoint indices, and UTF-16 slicing
+  corrupts any text containing characters outside the basic plane.</p>
+</section>
+
 <section id="modes">
   <h2>Recitation context</h2>
   <p>Several rules exist only at a pause, and several die across one. The engine therefore
