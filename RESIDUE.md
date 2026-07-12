@@ -10,6 +10,23 @@ annotates, both readings, and why it is not obviously a bug on either side.
 scholarly; where the evidence clearly favors one side, that is stated with its
 basis, but the engine is never changed merely to match the oracle.
 
+**Re-verification pass (2026-07-12):** every group below was re-researched
+independently against fresh sources. R-001 (idgham naqis): confirmed again via
+Sharh Tayyibat al-Nashr (al-Nuwayri) — the verse line "وبين الإطباق من أحطت مع
+بسطت" names these exact words — and al-Mizan p.141. R-002: multiple current
+tajweed references state the jalalah-lam tafkhim rule for الله AND اللهم
+together, one giving وَإِذْ قَالُوا۟ ٱللَّهُمَّ (8:32, a residue site) as the
+tafkhim example. R-003: reconfirmed from four independent angles — the
+munfasil-hukmi doctrine (ha al-tanbih / ya al-nida written joined, ruled
+separate) is stated by name across the literature with هؤلاء and هأنتم as the
+standard examples, and the first madd of هؤلاء is explicitly "جائز منفصل
+حكماً لا رسماً (أصلها ها أولاء)" with qasr to 2 counts available where
+munfasil qasr is transmitted — impossible for a muttasil. R-004/R-005:
+muttasil is definitionally madd + hamzah in one word; سوء-family words are
+standard muttasil examples; nothing treats تبوأ/تنوأ/السوأى as munfasil.
+R-007: Hafs reads طسم with full idgham (all readers except Hamzah and Abu
+Ja'far); the fawatih ikhfa' sites likewise. No claim required revision.
+
 State of the corpus diff (continuation mode, 2026-07-11): **99.80 %** agreement
 over the mapped rule categories; **108 disagreement sites** across all 6,236
 verses, all catalogued below in six groups — every group now verified against
