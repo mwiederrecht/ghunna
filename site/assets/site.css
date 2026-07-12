@@ -43,7 +43,31 @@ body { margin: 0; background: var(--paper); color: var(--ink);
   color: var(--ink); text-decoration: none; display: inline-flex; align-items: baseline; gap: 7px; }
 .rail .wordmark .dot { width: .38em; height: .38em; border-radius: 50%; background: var(--acc); }
 .rail .tag { font: 400 12px/1.5 var(--serif); font-style: italic; color: var(--quiet);
-  margin: 8px 0 26px; }
+  margin: 8px 0 14px; }
+.rail .langswitch { display: inline-block; margin: 0 0 22px; font: 600 12px/1 var(--sans);
+  color: var(--acc); text-decoration: none; border: 1px solid var(--hair); border-radius: 3px;
+  padding: 5px 10px; }
+.rail .langswitch:hover { border-color: var(--acc); }
+:root[dir="rtl"], [dir="rtl"] body { }
+[dir="rtl"] .rail { left: auto; right: 0; border-right: 0; border-left: 1px solid var(--hair); }
+[dir="rtl"] main { margin-left: 0; margin-right: var(--rail); }
+[dir="rtl"] .rail a.nav { border-left: 0; border-right: 2px solid transparent;
+  padding-left: 0; padding-right: 10px; margin-left: 0; margin-right: -12px; }
+[dir="rtl"] .rail a.nav[aria-current="page"] { border-right-color: var(--acc); border-left-color: transparent; }
+[dir="rtl"] .rulecard { border-left: 1px solid var(--hair); border-right: 3px solid var(--acc); }
+[dir="rtl"] body { font-family: var(--arabic); font-size: 19px; }
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 { font-family: var(--arabic); }
+[dir="rtl"] .label, [dir="rtl"] .rail h5, [dir="rtl"] .rail .tag,
+[dir="rtl"] .badge, [dir="rtl"] .rail .foot, [dir="rtl"] .rail .langswitch,
+[dir="rtl"] .rail .wordmark, [dir="rtl"] pre, [dir="rtl"] code,
+[dir="rtl"] .canon th, [dir="rtl"] .rulecard .id, [dir="rtl"] .rulecard .tr,
+[dir="rtl"] .cite { font-family: var(--sans); }
+[dir="rtl"] pre, [dir="rtl"] code, [dir="rtl"] .rulecard .id { direction: ltr; unicode-bidi: isolate; font-family: var(--mono); }
+[dir="rtl"] pre { text-align: left; }
+@media (max-width: 900px) {
+  [dir="rtl"] .rail { border-left: 0; border-bottom: 1px solid var(--hair); }
+  [dir="rtl"] main { margin-right: 0; }
+}
 .rail h5 { font: 600 10px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase;
   color: var(--quiet); margin: 22px 0 8px; }
 .rail a.nav { display: block; padding: 5px 0; font: 400 14.5px/1.4 var(--serif);

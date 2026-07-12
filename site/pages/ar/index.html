@@ -1,0 +1,78 @@
+<!-- title: غُنّة، مكتبة التجويد -->
+<section style="padding-bottom: 8px">
+  <p class="label">غُنّة</p>
+  <h1>أحكام التجويد، مُستنبَطةً.</h1>
+  <p class="lede">محرّكٌ يستنبط أحكام التجويد الكلاسيكي. يدخله النصُّ العثماني المشكول
+  فتخرج منه الأحكام: كلُّ موضعٍ يحمل حروفه المُوجِبة، واستنباطه بالعربية والإنجليزية،
+  والإحالة إلى بيت المنظومة الذي جاء منه.</p>
+  <div class="facts">
+    <span><b>٤١</b> حكمًا</span>
+    <span><b>مصدران</b> كلاسيكيّان، بالإحالة إلى البيت</span>
+    <span><b>٩٩٫٨٠٪</b> اتفاقًا مع مجموعات بياناتٍ مستقلة</span>
+    <span><b>١٠٨</b> مواضع اختلافٍ، كلٌّ منها مبحوثٌ وموثَّق</span>
+    <span><b>١١٢</b> اختبارًا</span>
+    <span><b>صفر</b> اعتماديّات وقت التشغيل</span>
+  </div>
+</section>
+
+<section id="example">
+  <h2>ما الذي يُرجِعه النداء</h2>
+  <pre><code><span class="k">import</span> { annotateVerse } <span class="k">from</span> "ghunna";
+
+<span class="k">const</span> { text, annotations } = annotateVerse(2, 255);
+
+<span class="c">// each annotation:</span>
+<span class="c">// {</span>
+<span class="c">//   rule: "iqlab",</span>
+<span class="c">//   name: { arabic: "الإقلاب", transliteration: "iqlāb", english: "conversion to mīm" },</span>
+<span class="c">//   range: [17, 22],            // codepoint range into text</span>
+<span class="c">//   derivation: "nūn sākinah/tanwīn followed by ب → the nūn is converted to a concealed mīm with ghunnah",</span>
+<span class="c">//   citation: { text: "tuhfah", lines: [13] },   // line 13 of Tuḥfat al-Aṭfāl</span>
+<span class="c">//   waqfDependent: false,</span>
+<span class="c">//   confidence: "certain",</span>
+<span class="c">// }</span></code></pre>
+  <p>النطاق هو رواية حفصٍ عن عاصم من طريق الشاطبية. والمكتبة مكتوبةٌ بلغة TypeScript
+  الخالصة، تعمل في المتصفّح وفي Node على السواء، وتُشحن بصيغتَي ESM وCJS.</p>
+</section>
+
+<section id="derived">
+  <h2>مُستنبَطةٌ لا مأخوذةٌ من جدول</h2>
+  <p>المصادر الرقمية الموجودة للتجويد ــ فيما نعلم كلَّها ــ ترميزٌ لمصحفٍ سبق تلوينه:
+  جدولٌ ثابتٌ من المواضع الملوّنة، منقولٌ من صفحةٍ مطبوعة. وهذه المكتبة تسلك العكس؛
+  فهي تطبّق الأحكام كما نُصّ عليها في المنظومتين التعليميتين،
+  <a href="/ar/sources">تحفة الأطفال والمقدمة الجزرية</a>، وتستنبط كلَّ موضعٍ من حروف
+  النص وحركاته وحدها.</p>
+  <p>ولهذا الفرق صورةٌ تقنيةٌ دقيقة. فالترميز العثماني يحمل إشاراتٍ للنطق مطبوعةً في
+  المصحف: الميم الصغيرة عند مواضع الإقلاب، والمدّة فوق المدود الطويلة. والمحرّك لا
+  يقرؤها البتّة؛ بل هي مُدَّخرةٌ <a href="/ar/verification">للتحقق</a> حيث يُقارَن ما
+  استُنبِط بما يطبعه المصحف. فمحرّك الاستنباط يمكن أن يُقارَن بالمطبوع، أما نسخُ
+  المطبوع فلا يمكن أن يُقارَن بشيء.</p>
+  <p>وينتج عن ذلك ثلاثة أمور. الأول: كلُّ موضعٍ يقدر أن يشرح نفسه، فالمخرجات تحمل
+  الاستنباط والإحالة لا مجرّد صنف لون. والثاني: يصير سياق التلاوة معطًى لا افتراضًا
+  مُثبَّتًا؛ انظر <a href="/ar/waqf">نموذج الوقف</a>. والثالث: تصير أُسَرُ الأحكام التي
+  لم تحملها مجموعات البيانات الرقمية قطّ ــ كأحكام التفخيم والترقيق ــ قابلةً للاستنباط
+  كأيّ حكمٍ آخر؛ انظر <a href="/ar/rules">فهرس الأحكام</a>.</p>
+</section>
+
+<section id="verified">
+  <h2>مُتحقَّقٌ منه على المطبوع</h2>
+  <p>قُورِنت مخرجات المحرّك على المصحف كلِّه (٦٢٣٦ آية) بمجموعتَي بياناتٍ مستقلتين،
+  وعند كل موضع نزاعٍ بصور صفحات مصحف دار المعرفة المطبوع نفسه. وبلغ الاتفاق على
+  الأصناف المُطابَقة ٩٩٫٨٠٪ في الوصل و٩٩٫٨٢٪ في الوقف. أما مواضع الاختلاف الـ١٠٨ فلم
+  تُطمَس؛ بل كلُّ موضعٍ مصنَّفٌ ومبحوثٌ في المراجع المنشورة وموثَّقٌ في
+  <a href="/ar/residue">مواضع الاختلاف</a>. وفي المجموعات الستّ جميعًا ترجّح البيّنةُ
+  الأحكامَ كما نُصّ عليها على ما في مجموعات البيانات، و٩٠ من الـ١٠٨ ترجع إلى خللٍ
+  واحدٍ محدَّدٍ في مُصنِّف المدّ في المجموعة المرجعية.</p>
+  <p><a href="/ar/verification">المنهج والنتائج كاملةً.</a></p>
+</section>
+
+<section id="install">
+  <h2>التثبيت</h2>
+  <pre><code>npm install ghunna</code></pre>
+  <pre><code><span class="c">// full package (bundled Qur'an text):</span>
+<span class="k">import</span> { annotateVerse, getVerseText } <span class="k">from</span> "ghunna";
+
+<span class="c">// corpus-free core: bring your own Tanzil-Uthmani-encoded text</span>
+<span class="k">import</span> { annotate, tokenize, RULE_META } <span class="k">from</span> "ghunna/core";</code></pre>
+  <p class="next"><a href="/ar/start">البداية ←</a></p>
+</section>

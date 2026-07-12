@@ -104,7 +104,8 @@ execSync(`npx wrangler pages deploy site/public --project-name ${PROJECT} --bran
 }
 
 // verify the live custom domain, with warm-up retries
-const checks = ["/", "/start", "/api", "/architecture", "/rules", "/waqf", "/sources", "/verification", "/residue", "/assumptions"];
+const enRoutes = ["/", "/start", "/api", "/architecture", "/rules", "/waqf", "/sources", "/verification", "/residue", "/assumptions"];
+const checks = [...enRoutes, ...enRoutes.map((r) => (r === "/" ? "/ar/" : "/ar" + r)), "/sitemap.xml", "/robots.txt"];
 let failed = 0;
 for (const path of checks) {
   let ok = false, status = 0;
@@ -113,7 +114,8 @@ for (const path of checks) {
     try {
       const res = await fetch(BASE + path, { cache: "no-store", redirect: "follow" });
       status = res.status;
-      ok = res.ok && (res.headers.get("content-type") ?? "").includes("text/html");
+      const wantHtml = !/\.(xml|txt)$/.test(path);
+      ok = res.ok && (!wantHtml || (res.headers.get("content-type") ?? "").includes("text/html"));
     } catch { /* DNS may lag on first deploy */ }
   }
   if (!ok) failed++;

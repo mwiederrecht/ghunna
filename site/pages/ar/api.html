@@ -1,18 +1,13 @@
-<!-- title: API reference | nav: api -->
+<!-- title: مرجع الواجهة -->
 <section style="padding-bottom: 8px">
-  <p class="label">API reference</p>
-  <h1>The interface, verbatim.</h1>
-  <p class="lede">The two blocks below are the declaration files the npm package ships,
-  reproduced without editing. The reference cannot drift from the code because it is the
-  code's own type declaration.</p>
-  <p>For a guided introduction, read <a href="/start">getting started</a>. For the meaning
-  of each rule identifier, see <a href="/rules">the rule catalog</a>.</p>
+  <p class="label">مرجع الواجهة</p>
+  <h1>الواجهة نصًّا.</h1>
+  <p class="lede">الكتلتان أدناه هما ملفّا التصريح اللذان تُشحن بهما حزمة npm، منقولان بلا تعديل. ولا يمكن للمرجع أن يفارق الكود لأنه تصريح الكود نفسه.</p>
+  <p>لمدخلٍ موجَّه، اقرأ <a href="/ar/start">البداية</a>. ولمعنى كل مُعرِّف حكم، انظر <a href="/ar/rules">فهرس الأحكام</a>.</p>
 </section>
 <section id="entry-full">
-  <h2>The full entry: <code>ghunna</code></h2>
-  <p>Includes the bundled Qurʾān text (Tanzil Uthmani, carried intact). Adds
-  <code>annotateVerse</code> and <code>getVerseText</code> on top of everything in the
-  core entry.</p>
+  <h2>المدخل الكامل: <code>ghunna</code></h2>
+  <p>يتضمّن النص القرآني المُضمَّن (تنزيل العثماني، منقولًا كما هو). ويضيف <code>annotateVerse</code> و<code>getVerseText</code> فوق كل ما في المدخل الأساسي.</p>
   <pre><code>import { RiwayahParams, Annotation } from './core.js';
 export { AnnotateOptions, DerivationError, HAFS_SAKT_SITES, HAFS_SHATIBIYYAH, LETTER_PROFILES, Letter, LetterProfile, MakhrajInfo, RULE_META, RuleId, RuleMeta, RuleName, SaktSite, SifaInfo, SourceRef, Tanwin, TokenizeError, TokenizedVerse, Vowel, Word, annotate, annotateTokens, annotationsAt, describeLetter, isLinLetter, isMaddLetter, isSakin, tokenize } from './core.js';
 
@@ -64,10 +59,8 @@ declare function getWaqfMarks(surah: number, ayah: number): WaqfMark[];
 export { type AnnotateVerseOptions, Annotation, RiwayahParams, type VerseAnnotationResult, type WaqfMark, type WaqfMarkKind, annotateVerse, getVerseText, getWaqfMarks };</code></pre>
 </section>
 <section id="entry-core">
-  <h2>The corpus-free entry: <code>ghunna/core</code></h2>
-  <p>The engine, tokenizer, rule table, letter profiles and riwāyah parameters, without
-  the embedded text. Use <code>annotate(text)</code> with your own Tanzil-Uthmani-encoded
-  input.</p>
+  <h2>المدخل بلا مصحف: <code>ghunna/core</code></h2>
+  <p>المحرّك والمُقطِّع وجدول الأحكام وبطاقات الحروف ومعطيات الرواية، بلا نصٍّ مُضمَّن. استعمل <code>annotate(text)</code> مع نصٍّ من عندك بترميز تنزيل العثماني.</p>
   <pre><code>/** Public annotation types (API sketch in README / project brief). */
 type RuleId = "izhar-halqi" | "idgham-bighunnah" | "izhar-mutlaq" | "idgham-bila-ghunnah" | "iqlab" | "ikhfa-haqiqi" | "ghunnah-mushaddadah" | "ikhfa-shafawi" | "idgham-shafawi" | "izhar-shafawi" | "lam-qamariyyah" | "lam-shamsiyyah" | "lam-jalalah-tafkhim" | "lam-jalalah-tarqiq" | "tafkhim-istila" | "ra-tafkhim" | "ra-tarqiq" | "ra-takrir" | "bayan-dad-zha" | "rawm" | "ishmam" | "waqf-ta-maftuha" | "idgham-mithlayn" | "idgham-mutajanisayn" | "idgham-mutaqaribayn" | "qalqalah-sughra" | "qalqalah-kubra" | "madd-tabii" | "madd-badal" | "madd-muttasil" | "madd-munfasil" | "madd-arid-lissukun" | "madd-lin" | "madd-lazim-kalimi-muthaqqal" | "madd-lazim-kalimi-mukhaffaf" | "madd-lazim-harfi-muthaqqal" | "madd-lazim-harfi-mukhaffaf" | "madd-iwad" | "hamzat-wasl" | "silent" | "sakt";
 interface SourceRef {
