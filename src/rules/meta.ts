@@ -1,0 +1,307 @@
+/**
+ * Rule metadata: canonical names (Arabic / transliteration / English),
+ * classical citations, waqf-dependence, and derivation templates.
+ *
+ * Kept in sync with docs/SPEC.md (test-enforced: every RuleId appears in the
+ * spec; citations match). `{t}` in a derivation template is replaced with the
+ * trigger letters, `{n}` with the following letter, at annotation time.
+ */
+import type { RuleId, RuleName, SourceRef } from "../annotation.js";
+
+export interface RuleMeta {
+  name: RuleName;
+  citation: SourceRef;
+  waqfDependent: boolean;
+  derivation: string;
+  derivationAr: string;
+}
+
+export const RULE_META: Record<RuleId, RuleMeta> = {
+  "izhar-halqi": {
+    name: { arabic: "الإظهار الحلقي", transliteration: "iẓhār ḥalqī", english: "clear pronunciation (throat letters)" },
+    citation: { text: "tuhfah", lines: [7, 8] },
+    waqfDependent: false,
+    derivation: "nūn sākinah/tanwīn followed by throat letter {n} → iẓhār (pronounce the nūn clearly)",
+    derivationAr: "نون ساكنة أو تنوين وبعدها حرف حلقي {n} ← إظهار: تُنطق النون واضحة",
+  },
+  "idgham-bighunnah": {
+    name: { arabic: "الإدغام بغنة", transliteration: "idghām bi-ghunnah", english: "merging with nasalization" },
+    citation: { text: "tuhfah", lines: [9, 10, 11] },
+    waqfDependent: false,
+    derivation: "nūn sākinah/tanwīn followed across the word boundary by {n} (of ينمو) → idghām with ghunnah",
+    derivationAr: "نون ساكنة أو تنوين وبعدها {n} من حروف (ينمو) في أول الكلمة التالية ← إدغام بغنة",
+  },
+  "izhar-mutlaq": {
+    name: { arabic: "الإظهار المطلق", transliteration: "iẓhār muṭlaq", english: "absolute clarity (same-word/fawātiḥ exception)" },
+    citation: { text: "tuhfah", lines: [11] },
+    waqfDependent: false,
+    derivation: "nūn sākinah before {n} in the same word (or fawātiḥ nūn) → no idghām; pronounce clearly",
+    derivationAr: "نون ساكنة قبل {n} في كلمة واحدة (أو نون الفواتح) ← لا إدغام؛ تُنطق واضحة",
+  },
+  "idgham-bila-ghunnah": {
+    name: { arabic: "الإدغام بلا غنة", transliteration: "idghām bilā ghunnah", english: "merging without nasalization" },
+    citation: { text: "tuhfah", lines: [12] },
+    waqfDependent: false,
+    derivation: "nūn sākinah/tanwīn followed by {n} → full idghām without ghunnah",
+    derivationAr: "نون ساكنة أو تنوين وبعدها {n} ← إدغام كامل بلا غنة",
+  },
+  iqlab: {
+    name: { arabic: "الإقلاب", transliteration: "iqlāb", english: "conversion to mīm" },
+    citation: { text: "tuhfah", lines: [13] },
+    waqfDependent: false,
+    derivation: "nūn sākinah/tanwīn followed by ب → the nūn is converted to a concealed mīm with ghunnah",
+    derivationAr: "نون ساكنة أو تنوين وبعدها باء ← تُقلب النون ميمًا مُخفاة بغنة",
+  },
+  "ikhfa-haqiqi": {
+    name: { arabic: "الإخفاء الحقيقي", transliteration: "ikhfāʾ ḥaqīqī", english: "concealment" },
+    citation: { text: "tuhfah", lines: [14, 15, 16] },
+    waqfDependent: false,
+    derivation: "nūn sākinah/tanwīn followed by {n} (one of the fifteen ikhfāʾ letters) → conceal the nūn with ghunnah",
+    derivationAr: "نون ساكنة أو تنوين وبعدها {n} من حروف الإخفاء الخمسة عشر ← إخفاء النون بغنة",
+  },
+  "ghunnah-mushaddadah": {
+    name: { arabic: "غنة الميم والنون المشددتين", transliteration: "ghunnah mushaddadah", english: "nasalization of doubled mīm/nūn" },
+    citation: { text: "tuhfah", lines: [17] },
+    waqfDependent: false,
+    derivation: "{t} bears shaddah → obligatory ghunnah (two counts)",
+    derivationAr: "{t} مشدَّدة ← غنة واجبة بمقدار حركتين",
+  },
+  "ikhfa-shafawi": {
+    name: { arabic: "الإخفاء الشفوي", transliteration: "ikhfāʾ shafawī", english: "labial concealment" },
+    citation: { text: "tuhfah", lines: [19, 20] },
+    waqfDependent: false,
+    derivation: "mīm sākinah followed by ب → conceal the mīm with ghunnah",
+    derivationAr: "ميم ساكنة وبعدها باء ← إخفاء الميم بغنة",
+  },
+  "idgham-shafawi": {
+    name: { arabic: "الإدغام الشفوي", transliteration: "idghām shafawī", english: "labial merging (mithlayn ṣaghīr)" },
+    citation: { text: "tuhfah", lines: [21] },
+    waqfDependent: false,
+    derivation: "mīm sākinah followed by م → merge with ghunnah",
+    derivationAr: "ميم ساكنة وبعدها ميم ← إدغام بغنة",
+  },
+  "izhar-shafawi": {
+    name: { arabic: "الإظهار الشفوي", transliteration: "iẓhār shafawī", english: "labial clarity" },
+    citation: { text: "tuhfah", lines: [22, 23] },
+    waqfDependent: false,
+    derivation: "mīm sākinah followed by {n} → pronounce the mīm clearly (take extra care before و and ف)",
+    derivationAr: "ميم ساكنة وبعدها {n} ← تُنطق الميم واضحة (والحذر أشد عند الواو والفاء)",
+  },
+  "lam-qamariyyah": {
+    name: { arabic: "اللام القمرية", transliteration: "lām qamariyyah", english: "moon lām (clear)" },
+    citation: { text: "tuhfah", lines: [24, 25, 28] },
+    waqfDependent: false,
+    derivation: "definite-article lām before moon letter {n} → pronounce the lām clearly",
+    derivationAr: "لام التعريف قبل حرف قمري {n} ← تُنطق اللام واضحة",
+  },
+  "lam-shamsiyyah": {
+    name: { arabic: "اللام الشمسية", transliteration: "lām shamsiyyah", english: "sun lām (assimilated)" },
+    citation: { text: "tuhfah", lines: [26, 27, 28] },
+    waqfDependent: false,
+    derivation: "definite-article lām before sun letter {n} → the lām assimilates; the following letter is doubled",
+    derivationAr: "لام التعريف قبل حرف شمسي {n} ← تُدغم اللام ويُشدَّد الحرف التالي",
+  },
+  "lam-jalalah-tafkhim": {
+    name: { arabic: "تفخيم لام لفظ الجلالة", transliteration: "lām al-jalālah mufakhkhamah", english: "heavy lām of Allāh" },
+    citation: { text: "jazariyyah", lines: [43] },
+    waqfDependent: false,
+    derivation: "the lām of الله preceded by fatḥah/ḍammah → tafkhīm (heavy)",
+    derivationAr: "لام لفظ الجلالة مسبوقة بفتح أو ضم ← تفخيم",
+  },
+  "lam-jalalah-tarqiq": {
+    name: { arabic: "ترقيق لام لفظ الجلالة", transliteration: "lām al-jalālah muraqqaqah", english: "light lām of Allāh" },
+    citation: { text: "jazariyyah", lines: [43] },
+    waqfDependent: false,
+    derivation: "the lām of الله preceded by kasrah → tarqīq (light)",
+    derivationAr: "لام لفظ الجلالة مسبوقة بكسر ← ترقيق",
+  },
+  "tafkhim-istila": {
+    name: { arabic: "تفخيم حروف الاستعلاء", transliteration: "tafkhīm ḥurūf al-istiʿlāʾ", english: "heavy (elevated) letters" },
+    citation: { text: "jazariyyah", lines: [21, 44] },
+    waqfDependent: false,
+    derivation: "{t} is one of the seven istiʿlāʾ letters (خص ضغط قظ) → always pronounced heavy (tafkhīm)",
+    derivationAr: "{t} من حروف الاستعلاء السبعة (خص ضغط قظ) ← مفخَّم دائمًا",
+  },
+  "ra-tafkhim": {
+    name: { arabic: "تفخيم الراء", transliteration: "tafkhīm al-rāʾ", english: "heavy rāʾ" },
+    citation: { text: "jazariyyah", lines: [40, 41] },
+    waqfDependent: false,
+    derivation: "rāʾ {t}: fatḥah/ḍammah, or sākinah after fatḥ/ḍamm, or after a non-original kasrah, or before an istiʿlāʾ letter → tafkhīm",
+    derivationAr: "الراء {t}: مفتوحة أو مضمومة، أو ساكنة بعد فتح أو ضم، أو بعد كسر عارض، أو قبل حرف استعلاء ← تفخيم",
+  },
+  "ra-tarqiq": {
+    name: { arabic: "ترقيق الراء", transliteration: "tarqīq al-rāʾ", english: "light rāʾ" },
+    citation: { text: "jazariyyah", lines: [40, 41, 42] },
+    waqfDependent: false,
+    derivation: "rāʾ {t}: kasrah, or sākinah after an original kasrah with no istiʿlāʾ letter following → tarqīq",
+    derivationAr: "الراء {t}: مكسورة، أو ساكنة بعد كسر أصلي وليس بعدها حرف استعلاء ← ترقيق",
+  },
+  "ra-takrir": {
+    name: { arabic: "إخفاء تكرير الراء المشددة", transliteration: "ikhfāʾ takrīr al-rāʾ", english: "suppress the trill of doubled rāʾ" },
+    citation: { text: "jazariyyah", lines: [42] },
+    waqfDependent: false,
+    derivation: "doubled rāʾ {t}: conceal the letter's natural trill (takrīr) — one contact of the tongue, not a roll",
+    derivationAr: "راء مشدَّدة {t}: يُخفى التكرير — ضربة واحدة للسان لا رعشة",
+  },
+  "bayan-dad-zha": {
+    name: { arabic: "بيان الضاد والظاء عند التلاقي", transliteration: "bayān al-ḍād wa-l-ẓāʾ", english: "obligatory distinction of ḍād and ẓāʾ in contact" },
+    citation: { text: "jazariyyah", lines: [59] },
+    waqfDependent: false,
+    derivation: "ض and ظ meet at {t} — pronounce each distinctly; merging them is prohibited (البيان لازم)",
+    derivationAr: "التقاء الضاد والظاء في {t} ← يجب بيان كلٍّ منهما؛ وإدغامهما ممنوع",
+  },
+  rawm: {
+    name: { arabic: "الروم", transliteration: "rawm", english: "vowel-hinting at the stop (permitted)" },
+    citation: { text: "jazariyyah", lines: [103, 104] },
+    waqfDependent: true,
+    derivation: "stopping on a ḍammah or kasrah: rawm (pronouncing a weakened third of the vowel) is a transmitted option",
+    derivationAr: "الوقف على ضم أو كسر: الرَّوم (الإتيان بثلث الحركة بصوت خفي) وجه منقول",
+  },
+  ishmam: {
+    name: { arabic: "الإشمام", transliteration: "ishmām", english: "lip-rounding at the stop (permitted)" },
+    citation: { text: "jazariyyah", lines: [104] },
+    waqfDependent: true,
+    derivation: "stopping on a ḍammah: ishmām (soundless lip-rounding after the sukūn) is a transmitted option",
+    derivationAr: "الوقف على ضم: الإشمام (ضم الشفتين بلا صوت بعد السكون) وجه منقول",
+  },
+  "waqf-ta-maftuha": {
+    name: { arabic: "الوقف على التاء المرسومة مفتوحة", transliteration: "al-tāʾ al-maftūḥah", english: "stop with tāʾ (open-tāʾ rasm)" },
+    citation: { text: "jazariyyah", lines: [93, 94, 95, 96, 97, 98, 99] },
+    waqfDependent: true,
+    derivation: "this feminine tāʾ is written open in the rasm ({t}) — stopping here keeps the tāʾ sound (not hāʾ)",
+    derivationAr: "هذه التاء مرسومة مفتوحة ({t}) ← الوقف عليها بالتاء لا بالهاء",
+  },
+  "idgham-mithlayn": {
+    name: { arabic: "إدغام المثلين", transliteration: "idghām mithlayn", english: "merging of identical letters" },
+    citation: { text: "tuhfah", lines: [30, 33] },
+    waqfDependent: false,
+    derivation: "{t} sākin followed by an identical letter → merge (mithlayn ṣaghīr)",
+    derivationAr: "{t} ساكن وبعده حرف مماثل ← إدغام (مثلان صغير)",
+  },
+  "idgham-mutajanisayn": {
+    name: { arabic: "إدغام المتجانسين", transliteration: "idghām mutajānisayn", english: "merging of same-articulation letters" },
+    citation: { text: "tuhfah", lines: [32, 33] },
+    waqfDependent: false,
+    derivation: "{t} sākin followed by {n} (same makhraj, different ṣifāt) → merge",
+    derivationAr: "{t} ساكن وبعده {n} (اتحاد المخرج واختلاف الصفات) ← إدغام",
+  },
+  "idgham-mutaqaribayn": {
+    name: { arabic: "إدغام المتقاربين", transliteration: "idghām mutaqāribayn", english: "merging of near-articulation letters" },
+    citation: { text: "tuhfah", lines: [31, 33] },
+    waqfDependent: false,
+    derivation: "{t} sākin followed by {n} (close makhraj/ṣifāt) → merge",
+    derivationAr: "{t} ساكن وبعده {n} (تقارب المخرج أو الصفات) ← إدغام",
+  },
+  "qalqalah-sughra": {
+    name: { arabic: "القلقلة الصغرى", transliteration: "qalqalah ṣughrā", english: "minor echoing" },
+    citation: { text: "jazariyyah", lines: [23, 38] },
+    waqfDependent: false,
+    derivation: "{t} (of قطب جد) is sākin mid-flow → light qalqalah bounce",
+    derivationAr: "{t} من حروف (قطب جد) ساكن في وسط الكلام ← قلقلة صغرى",
+  },
+  "qalqalah-kubra": {
+    name: { arabic: "القلقلة الكبرى", transliteration: "qalqalah kubrā", english: "major echoing (at stop)" },
+    citation: { text: "jazariyyah", lines: [23, 38] },
+    waqfDependent: true,
+    derivation: "{t} (of قطب جد) ends the utterance at a stop → strong qalqalah bounce",
+    derivationAr: "{t} من حروف (قطب جد) في آخر الوقف ← قلقلة كبرى",
+  },
+  "madd-tabii": {
+    name: { arabic: "المد الطبيعي", transliteration: "madd ṭabīʿī", english: "natural lengthening (2 counts)" },
+    citation: { text: "tuhfah", lines: [35, 36, 37, 39, 40] },
+    waqfDependent: false,
+    derivation: "madd letter {t} with no hamzah or sukūn cause → natural madd of two counts",
+    derivationAr: "حرف مد {t} بلا همز ولا سكون بعده ← مد طبيعي بمقدار حركتين",
+  },
+  "madd-badal": {
+    name: { arabic: "مد البدل", transliteration: "madd badal", english: "substitute lengthening (2 counts)" },
+    citation: { text: "tuhfah", lines: [46] },
+    waqfDependent: false,
+    derivation: "hamzah precedes the madd letter {t} with no further cause → madd badal, two counts",
+    derivationAr: "همزة قبل حرف المد {t} ولا سبب بعده ← مد بدل، حركتان",
+  },
+  "madd-muttasil": {
+    name: { arabic: "المد الواجب المتصل", transliteration: "madd wājib muttaṣil", english: "obligatory connected lengthening (4–5 counts)" },
+    citation: { text: "tuhfah", lines: [42, 43] },
+    waqfDependent: false,
+    derivation: "madd letter {t} followed by hamzah in the same word → obligatory madd (4–5 counts)",
+    derivationAr: "حرف مد {t} وبعده همزة في الكلمة نفسها ← مد واجب متصل (٤–٥ حركات)",
+  },
+  "madd-munfasil": {
+    name: { arabic: "المد الجائز المنفصل", transliteration: "madd jāʾiz munfaṣil", english: "permitted separated lengthening (4–5 counts)" },
+    citation: { text: "tuhfah", lines: [42, 44] },
+    waqfDependent: false,
+    derivation: "madd letter {t} at word end, next word begins with hamzah → permitted madd (4–5 counts)",
+    derivationAr: "حرف مد {t} في آخر الكلمة والهمزة في أول الكلمة التالية ← مد جائز منفصل (٤–٥ حركات)",
+  },
+  "madd-arid-lissukun": {
+    name: { arabic: "المد العارض للسكون", transliteration: "madd ʿāriḍ lil-sukūn", english: "lengthening before pause-sukūn (2/4/6 counts)" },
+    citation: { text: "tuhfah", lines: [45] },
+    waqfDependent: true,
+    derivation: "madd letter {t} before the final letter of a stopped-on word → 2, 4 or 6 counts at the pause",
+    derivationAr: "حرف مد {t} قبل الحرف الأخير من كلمة موقوف عليها ← حركتان أو ٤ أو ٦ عند الوقف",
+  },
+  "madd-lin": {
+    name: { arabic: "مد اللين", transliteration: "madd līn", english: "soft-letter lengthening at pause" },
+    citation: { text: "tuhfah", lines: [41, 45] },
+    waqfDependent: true,
+    derivation: "līn letter {t} (و/ي sākin after fatḥah) before a pause-sukūn → 2, 4 or 6 counts",
+    derivationAr: "حرف لين {t} (واو أو ياء ساكنة بعد فتح) قبل سكون الوقف ← حركتان أو ٤ أو ٦",
+  },
+  "madd-lazim-kalimi-muthaqqal": {
+    name: { arabic: "المد اللازم الكلمي المثقل", transliteration: "madd lāzim kalimī muthaqqal", english: "required word lengthening, heavy (6 counts)" },
+    citation: { text: "tuhfah", lines: [47, 48, 49, 50, 52] },
+    waqfDependent: false,
+    derivation: "madd letter {t} followed in the word by a shaddah-doubled letter → required madd, six counts",
+    derivationAr: "حرف مد {t} وبعده حرف مشدَّد في الكلمة ← مد لازم كلمي مثقَّل، ست حركات",
+  },
+  "madd-lazim-kalimi-mukhaffaf": {
+    name: { arabic: "المد اللازم الكلمي المخفف", transliteration: "madd lāzim kalimī mukhaffaf", english: "required word lengthening, light (6 counts)" },
+    citation: { text: "tuhfah", lines: [47, 48, 49, 50, 52] },
+    waqfDependent: false,
+    derivation: "madd letter {t} followed in the word by an original sukūn → required madd, six counts",
+    derivationAr: "حرف مد {t} وبعده سكون أصلي في الكلمة ← مد لازم كلمي مخفَّف، ست حركات",
+  },
+  "madd-lazim-harfi-muthaqqal": {
+    name: { arabic: "المد اللازم الحرفي المثقل", transliteration: "madd lāzim ḥarfī muthaqqal", english: "required letter-name lengthening, heavy (6 counts)" },
+    citation: { text: "tuhfah", lines: [51, 52, 53, 54] },
+    waqfDependent: false,
+    derivation: "fawātiḥ letter {t}: its three-letter name has a medial madd and its final assimilates into the next letter → six counts, heavy",
+    derivationAr: "حرف من الفواتح {t}: اسمه ثلاثي وسطه حرف مد وآخره يُدغم فيما بعده ← ست حركات، مثقَّل",
+  },
+  "madd-lazim-harfi-mukhaffaf": {
+    name: { arabic: "المد اللازم الحرفي المخفف", transliteration: "madd lāzim ḥarfī mukhaffaf", english: "required letter-name lengthening, light (6 counts)" },
+    citation: { text: "tuhfah", lines: [51, 52, 53, 54] },
+    waqfDependent: false,
+    derivation: "fawātiḥ letter {t}: its three-letter name has a medial madd with original sukūn → six counts",
+    derivationAr: "حرف من الفواتح {t}: اسمه ثلاثي وسطه حرف مد وآخره ساكن أصلي ← ست حركات",
+  },
+  "madd-iwad": {
+    name: { arabic: "مد العوض", transliteration: "madd ʿiwaḍ", english: "substitution lengthening at stop (2 counts)" },
+    citation: { text: "jazariyyah", lines: [103] },
+    waqfDependent: true,
+    derivation: "stopping on tanwīn fatḥ: the tanwīn is replaced by an alif of two counts",
+    derivationAr: "الوقف على تنوين الفتح: يُبدل التنوين ألفًا بمقدار حركتين",
+  },
+  "hamzat-wasl": {
+    name: { arabic: "همزة الوصل", transliteration: "hamzat al-waṣl", english: "connective hamzah" },
+    citation: { text: "jazariyyah", lines: [100, 101, 102] },
+    waqfDependent: false,
+    derivation: "connective hamzah ٱ — written but silent in connected recitation",
+    derivationAr: "همزة وصل ٱ — تُكتب ولا تُنطق في وصل الكلام",
+  },
+  silent: {
+    name: { arabic: "حرف لا يُنطق", transliteration: "ḥarf ṣāmit", english: "orthographically silent letter" },
+    citation: { text: "jazariyyah", lines: [7, 8] },
+    waqfDependent: false,
+    derivation: "letter written in the rasm but not recited",
+    derivationAr: "حرف مرسوم في المصحف لا يُنطق",
+  },
+  sakt: {
+    name: { arabic: "السكت", transliteration: "sakt", english: "breathless pause" },
+    citation: { text: "jazariyyah", lines: [72] },
+    waqfDependent: false,
+    derivation: "transmitted sakt site of Ḥafṣ — a brief breathless pause; blocks assimilation across it",
+    derivationAr: "موضع سكت منقول عن حفص — وقفة لطيفة بلا تنفس؛ تمنع الإدغام عبرها",
+  },
+};

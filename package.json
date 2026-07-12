@@ -1,0 +1,57 @@
+{
+  "name": "ghunna",
+  "version": "0.1.0",
+  "description": "ghunna — the tajweed library. Vocalized Uthmani text in, derived rule annotations out: every span with its trigger, derivation, and citation into Tuhfat al-Atfal and al-Muqaddimah al-Jazariyyah.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js",
+      "require": "./dist/core.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prebuild": "tsx tools/gen-corpus-module.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^3.0.0"
+  },
+  "keywords": [
+    "tajweed",
+    "quran",
+    "arabic",
+    "hafs",
+    "recitation"
+  ],
+  "author": "Melissa Wiederrecht",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mwiederrecht/ghunna.git"
+  },
+  "homepage": "https://github.com/mwiederrecht/ghunna#readme",
+  "bugs": {
+    "url": "https://github.com/mwiederrecht/ghunna/issues"
+  }
+}
