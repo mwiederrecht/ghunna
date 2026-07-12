@@ -105,14 +105,14 @@ export const RULE_META: Record<RuleId, RuleMeta> = {
     name: { arabic: "تفخيم لام لفظ الجلالة", transliteration: "lām al-jalālah mufakhkhamah", english: "heavy lām of Allāh" },
     citation: { text: "jazariyyah", lines: [43] },
     waqfDependent: false,
-    derivation: "the lām of الله preceded by fatḥah/ḍammah → tafkhīm (heavy)",
+    derivation: "the lām of lafẓ al-jalālah preceded by fatḥah/ḍammah → tafkhīm (heavy)",
     derivationAr: "لام لفظ الجلالة مسبوقة بفتح أو ضم ← تفخيم",
   },
   "lam-jalalah-tarqiq": {
     name: { arabic: "ترقيق لام لفظ الجلالة", transliteration: "lām al-jalālah muraqqaqah", english: "light lām of Allāh" },
     citation: { text: "jazariyyah", lines: [43] },
     waqfDependent: false,
-    derivation: "the lām of الله preceded by kasrah → tarqīq (light)",
+    derivation: "the lām of lafẓ al-jalālah preceded by kasrah → tarqīq (light)",
     derivationAr: "لام لفظ الجلالة مسبوقة بكسر ← ترقيق",
   },
   "tafkhim-istila": {

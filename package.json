@@ -1,6 +1,6 @@
 {
   "name": "ghunna",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "ghunna — the tajweed library. Vocalized Uthmani text in, derived rule annotations out: every span with its trigger, derivation, and citation into Tuhfat al-Atfal and al-Muqaddimah al-Jazariyyah.",
   "license": "MIT",
   "type": "module",

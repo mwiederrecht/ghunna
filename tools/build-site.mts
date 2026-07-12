@@ -41,7 +41,7 @@ const GROUPS: Array<[string, string, RuleId[]]> = [
     ["izhar-halqi", "idgham-bighunnah", "izhar-mutlaq", "idgham-bila-ghunnah", "iqlab", "ikhfa-haqiqi"]],
   ["Ghunnah", "", ["ghunnah-mushaddadah"]],
   ["Mīm sākinah", "", ["ikhfa-shafawi", "idgham-shafawi", "izhar-shafawi"]],
-  ["The lām rules", "The definite article before moon and sun letters, and the lām of the divine name.",
+  ["The lām rules", "The definite article before moon and sun letters, and the lām of lafẓ al-jalālah.",
     ["lam-qamariyyah", "lam-shamsiyyah", "lam-jalalah-tafkhim", "lam-jalalah-tarqiq"]],
   ["Tafkhīm and tarqīq", "The heaviness rules: the seven istiʿlāʾ letters, and the contextual rules of the rāʾ. These are printed in the Dar al-Maarifah tajweed muṣḥaf as a separate (blue) color class that the digital datasets never carried; this library is, to our knowledge, their first digital derivation.",
     ["tafkhim-istila", "ra-tafkhim", "ra-tarqiq", "ra-takrir"]],

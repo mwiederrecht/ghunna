@@ -112,10 +112,10 @@ dropped it. Engine correct.
 **Rules-as-written:** ٱللَّهُمَّ is lafẓ al-jalālah + suffixed mīm; its doubled
 lām follows jazariyyah:43 (tafkhīm after fatḥ/ḍamm, tarqīq after kasr), same as
 ٱللَّه. Not an ordinary shamsiyyah assimilation annotation.
-**Oracle:** annotates the lām of ٱللَّهُمَّ as `lam_shamsiyyah`, while ٱللَّه
-itself gets no lām annotation anywhere.
+**Oracle:** annotates the lām of ٱللَّهُمَّ as `lam_shamsiyyah`, while the
+unsuffixed lafẓ al-jalālah gets no lām annotation anywhere.
 **Oracle #2 (checked 2026-07-11):** Quran.com/KFGQPC **also** tags
-ٱللَّهُمَّ's lām as `laam_shamsiyah` while giving ٱللَّه itself no lām
+ٱللَّهُمَّ's lām as `laam_shamsiyah` while giving the unsuffixed lafẓ al-jalālah no lām
 annotation (3:26, 39:46 verified).
 **Print (2026-07-11 — the resolution):** page images settle it.
 - 3:26 قُلِ ٱللَّهُمَّ (tarqīq context): first lām printed **GRAY** (the
@@ -123,7 +123,7 @@ annotation (3:26, 39:46 verified).
   (evidence/3-26-allahumma-gray-lam.jpg).
 - 10:10 ٱللَّهُمَّ and وَإِلَى ٱللَّهِ (tafkhīm contexts): jalālah lām printed
   **BLUE** — the tafkhīm class (evidence/10-10-…, 3-28-…).
-So the print treats اللهم exactly like الله: blue at tafkhīm, default at
+So the print gives ٱللَّهُمَّ the same treatment as the unsuffixed lafẓ al-jalālah: blue at tafkhīm, default at
 tarqīq, with the assimilated first lām gray. The datasets digitized the gray
 as `lam_shamsiyyah` and dropped the blue class entirely — hence their
 asymmetry (tags at اللهم, nothing at الله). A digitization artifact, not a
