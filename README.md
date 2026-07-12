@@ -1,8 +1,8 @@
 # ghunna
 
-> *Ghunna (غُنّة) is the nasal resonance at the heart of tajweed — the sound the rules keep returning to.*
+Ghunna (غُنّة) is the nasal resonance central to tajweed; the library is named for it.
 
-Ask for a verse, get its tajweed rules — **derived, not looked up**.
+Ask for a verse, get its tajweed rules: **derived, not looked up**.
 
 ```ts
 import { annotateVerse } from "ghunna";
@@ -22,7 +22,7 @@ const { text, annotations } = annotateVerse(2, 255); // Āyat al-Kursī
 // }
 ```
 
-A pure-TypeScript derivation engine for classical tajweed — riwāyat **Ḥafṣ ʿan
+A pure-TypeScript derivation engine for classical tajweed, riwāyat **Ḥafṣ ʿan
 ʿĀṣim**, ṭarīq al-Shāṭibiyyah. Zero runtime dependencies; identical in browser
 and Node; ESM + CJS.
 
@@ -30,14 +30,14 @@ and Node; ESM + CJS.
 
 **1. It derives every rule from letter and diacritic context alone.** The
 Uthmani encoding embeds pronunciation *hints* (the small mīm at iqlāb sites,
-the maddah on long madds). This engine never reads them — they are used only to
+the maddah on long madds). This engine never reads them; they are used only to
 *test* it. The rules are implemented **as written** in the two canonical
 teaching poems, cited down to the line:
 
-- *Tuḥfat al-Aṭfāl* (al-Jamzūrī, 1198 AH) — `docs/sources/tuhfah.md`
-- *al-Muqaddimah al-Jazariyyah* (Ibn al-Jazarī, d. 833 AH) — `docs/sources/jazariyyah.md`
+- *Tuḥfat al-Aṭfāl* (al-Jamzūrī, 1198 AH): `docs/sources/tuhfah.md`
+- *al-Muqaddimah al-Jazariyyah* (Ibn al-Jazarī, d. 833 AH): `docs/sources/jazariyyah.md`
 
-**2. It models stopping (waqf) — no existing tool does.** Some rules exist only
+**2. It models stopping (waqf); no existing tool does.** Some rules exist only
 at a pause (madd ʿāriḍ lil-sukūn, qalqalah kubrā, madd ʿiwaḍ); others die
 across one (idghām, madd munfaṣil). Precomputed tajweed datasets bake in one
 pause assumption; this engine makes it a parameter:
@@ -49,7 +49,7 @@ annotateVerse(36, 52, { stopAt: 5 });           // recitation-tutor: stop after 
 annotateVerse(1, 2, { startFresh: true });      // starting here: hamzat al-waṣl start-vowel derived
 ```
 
-**3. It is verified against the annotated-mushaf tradition — and the
+**3. It is verified against the annotated-mushaf tradition, and the
 disagreements are catalogued, not hidden.** The engine's output is compared
 over all 6,236 verses against
 [cpfair/quran-tajweed](https://github.com/cpfair/quran-tajweed) (CC-BY 4.0,
@@ -62,15 +62,14 @@ derived from the Dar al-Maarifah tajweed muṣḥaf):
 
 Every disagreement site is classified into six groups in
 [RESIDUE.md](./RESIDUE.md), each **verified against the published tajweed
-literature** — and in all six, the evidence favors the rules-as-written over
+literature**, and in all six, the evidence favors the rules-as-written over
 the dataset. 90 of the 108 sites reduce to a single defect in the dataset's
 madd classifier (it branches on the hamzah's seat glyph instead of word
 identity, so it misfiles هَٰٓؤُلَآءِ and يَٰٓـَٔادَمُ as muttaṣil and تَبُوٓأَ as
 munfaṣil); the rest are its missing ط→ت idghām nāqiṣ (بَسَطتَ), the اللهم lām,
 a ṣila-classifier undercount at 17:7, and unannotated fawātiḥ assimilation
 (طسٓمٓ with idghām). Adopted policies on open questions are logged in
-[ASSUMPTIONS.md](./ASSUMPTIONS.md). The diff harness ships in
-`tools/diff-harness.ts`.
+[ASSUMPTIONS.md](./ASSUMPTIONS.md).
 
 ## Install & use
 
@@ -89,15 +88,15 @@ annotate("مِن رَّبِّهِمْ");  // → [{ rule: "idgham-bila-ghunnah",
 ```
 
 Also exported: the tokenizer (letters, words, codepoint-ranged spans), the full
-rule metadata table (`RULE_META` — names, citations, derivation templates), and
+rule metadata table (`RULE_META`: names, citations, derivation templates), and
 the riwāyah parameter set (`HAFS_SHATIBIYYAH`, including the four transmitted
-sakt sites, which the engine applies as data — they are not derivable and not
+sakt sites, which the engine applies as data; they are not derivable and not
 read from any hint).
 
 ## Input contract
 
 - Vocalized Uthmani Arabic in the **Tanzil Uthmani encoding** (bundled corpus
-  is exactly that). Combining-mark order is preserved — do **not** NFC-normalize.
+  is exactly that). Combining-mark order is preserved; do **not** NFC-normalize.
 - Unknown codepoints, marks without a base letter, or empty input **throw**
   (`TokenizeError`). This is the Qur'an; the engine never guesses silently.
   Ambiguous derivations are emitted with `confidence: "flagged"`.
@@ -116,11 +115,11 @@ assimilation · hamzat al-waṣl (silent in flow; start-vowel rules when startin
 
 ## Project documents
 
-- [docs/SPEC.md](./docs/SPEC.md) — the rule specification with poem-line
+- [docs/SPEC.md](./docs/SPEC.md): the rule specification with poem-line
   citations (the scholar-facing artifact; test-enforced sync with the engine)
-- [ASSUMPTIONS.md](./ASSUMPTIONS.md) — every adopted policy on an open question
-- [RESIDUE.md](./RESIDUE.md) — the 27 catalogued divergences from the oracle
-- `reports/diff.md`, `reports/diff-waqf.md` — full corpus diff reports
+- [ASSUMPTIONS.md](./ASSUMPTIONS.md): every adopted policy on an open question
+- [RESIDUE.md](./RESIDUE.md): all 108 catalogued divergence sites, each resolved
+  against the published literature
 
 ## Data & licenses
 
