@@ -324,6 +324,7 @@ function shell(lang: Lang, id: string, titleText: string, body: string): string 
 <meta property="og:locale:alternate" content="${lang === "en" ? "ar_AR" : "en_US"}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='34' fill='%2314684f'/></svg>">
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "a2215009a934488a8ab4777be9c67ca5"}'></script>
 <style>${css}</style>
 </head>
 <body>
