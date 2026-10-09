@@ -292,6 +292,7 @@ function rail(lang: Lang, current: string): string {
     <a href="https://github.com/mwiederrecht/ghunna">GitHub</a>
     <a href="https://www.npmjs.com/package/ghunna">npm</a>
     <a href="https://melissawiederrecht.com">Melissa Wiederrecht</a>
+    <a href="https://spelling.school" title="English spelling practice, by the same author">Spelling.School</a>
   </div>
 </aside>`;
 }
